@@ -12,7 +12,7 @@ const MobileNav = () => {
   const pathname = usePathname();
 
   return (
-    <header className="header">
+    <header className="flex-between fixed h-16 w-full border-b-4 border-purple-100 bg-white p-5 lg:hidden">
       <Link href="/" className="flex items-center gap-2 md:py-2">
         <Image
           src="/assets/images/logo-text.svg"
@@ -36,7 +36,7 @@ const MobileNav = () => {
                 className="cursor-pointer"
               />
             </SheetTrigger>
-            <SheetContent className="sheet-content sm:w-64">
+            <SheetContent>
               <>
                 <Image 
                   src="/assets/images/logo-text.svg"
@@ -45,7 +45,7 @@ const MobileNav = () => {
                   height={23}
                 />
 
-              <ul className="header-nav_elements">
+              <ul className="mt-8 flex w-full flex-col items-start gap-5">
               {navLinks.map((link) => {
                 const isActive = link.route === pathname
 
@@ -54,7 +54,7 @@ const MobileNav = () => {
                     className={`${isActive && 'gradient-text'} p-18 flex whitespace-nowrap text-dark-700`}
                     key={link.route}
                     >
-                    <Link className="sidebar-link cursor-pointer" href={link.route}>
+                    <Link className="p-16-semibold flex size-full gap-4 p-4 cursor-pointer" href={link.route}>
                       <Image 
                         src={link.icon}
                         alt="logo"

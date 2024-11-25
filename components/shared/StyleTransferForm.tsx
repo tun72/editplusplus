@@ -46,10 +46,10 @@ export const formSchema = z.object({
   color: z.string().optional(),
   prompt: z.string().optional(),
   publicId: z.string(),
-  transformId: z.string()
+  transformId: z.string(),
 });
 
-const TransformationForm = ({
+const StyleTransferForm = ({
   action,
   data = null,
   userId,
@@ -151,43 +151,6 @@ const TransformationForm = ({
     setIsSubmitting(false);
   }
 
-  const onSelectFieldHandler = (
-    value: string,
-    onChangeField: (value: string) => void
-  ) => {
-    const imageSize = aspectRatioOptions[value as AspectRatioKey];
-
-    setImage((prevState: any) => ({
-      ...prevState,
-      aspectRatio: imageSize.aspectRatio,
-      width: imageSize.width,
-      height: imageSize.height,
-    }));
-
-    setNewTransformation(transformationType.config);
-
-    return onChangeField(value);
-  };
-
-  const onInputChangeHandler = (
-    fieldName: string,
-    value: string,
-    type: string,
-    onChangeField: (value: string) => void
-  ) => {
-    debounce(() => {
-      setNewTransformation((prevState: any) => ({
-        ...prevState,
-        [type]: {
-          ...prevState?.[type],
-          [fieldName === "prompt" ? "prompt" : "to"]: value,
-        },
-      }));
-    }, 1000)();
-
-    return onChangeField(value);
-  };
-
   const onTransformHandler = async () => {
     setIsTransforming(true);
 
@@ -217,102 +180,45 @@ const TransformationForm = ({
           name="title"
           formLabel="Image Title"
           className="w-full"
-          render={({ field }) => <Input {...field} className="rounded-[16px] border-2 border-purple-200/20 shadow-sm shadow-purple-200/15 text-dark-600 disabled:opacity-100 p-16-semibold h-[50px] md:h-[54px] focus-visible:ring-offset-0 px-4 py-3 focus-visible:ring-transparent" />}
+          render={({ field }) => (
+            <Input
+              {...field}
+              className="rounded-[16px] border-2 border-purple-200/20 shadow-sm shadow-purple-200/15 text-dark-600 disabled:opacity-100 p-16-semibold h-[50px] md:h-[54px] focus-visible:ring-offset-0 px-4 py-3 focus-visible:ring-transparent"
+            />
+          )}
         />
 
-        {type === "fill" && (
-          <CustomField
-            control={form.control}
-            name="aspectRatio"
-            formLabel="Aspect Ratio"
-            className="w-full"
-            render={({ field }) => (
-              <Select
-                onValueChange={(value) =>
-                  onSelectFieldHandler(value, field.onChange)
-                }
-                value={field.value}
-              >
-                <SelectTrigger className="w-full border-2 border-purple-200/20 shadow-sm shadow-purple-200/15 rounded-[16px] h-[50px] md:h-[54px] text-dark-600 p-16-semibold disabled:opacity-100 placeholder:text-dark-400/50 px-4 py-3 focus:ring-offset-0 focus-visible:ring-transparent focus:ring-transparent focus-visible:ring-0 focus-visible:outline-none">
-                  <SelectValue placeholder="Select size" />
-                </SelectTrigger>
-                <SelectContent>
-                  {Object.keys(aspectRatioOptions).map((key) => (
-                    <SelectItem key={key} value={key} className="py-3 cursor-pointer hover:bg-purple-100">
-                      {aspectRatioOptions[key as AspectRatioKey].label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            )}
-          />
-        )}
-
-        {(type === "remove" || type === "recolor") && (
-          <div className="flex flex-col gap-5 lg:flex-row lg:gap-10">
+        <div className="grid h-fit min-h-[200px] grid-cols-1 gap-5 py-4 md:grid-cols-2">
+          <div className="flex flex-1 flex-col gap-5">
             <CustomField
               control={form.control}
-              name="prompt"
-              formLabel={
-                type === "remove" ? "Object to remove" : "Object to recolor"
-              }
-              className="w-full"
+              name="publicId"
+              className="flex size-full flex-col"
               render={({ field }) => (
-                <Input
-                  value={field.value}
-                  className="input-field"
-                  onChange={(e) =>
-                    onInputChangeHandler(
-                      "prompt",
-                      e.target.value,
-                      type,
-                      field.onChange
-                    )
-                  }
+                <MediaUploader
+                  onValueChange={field.onChange}
+                  setImage={setImage}
+                  publicId={field.value}
+                  image={image}
+                  type={type}
                 />
               )}
             />
-
-            {type === "recolor" && (
-              <CustomField
-                control={form.control}
-                name="color"
-                formLabel="Replacement Color"
-                className="w-full"
-                render={({ field }) => (
-                  <Input
-                    value={field.value}
-                    className="input-field"
-                    onChange={(e) =>
-                      onInputChangeHandler(
-                        "color",
-                        e.target.value,
-                        "recolor",
-                        field.onChange
-                      )
-                    }
-                  />
-                )}
-              />
-            )}
+            <CustomField
+              control={form.control}
+              name="transformId"
+              className="flex size-full flex-col"
+              render={({ field }) => (
+                <MediaUploader
+                  onValueChange={field.onChange}
+                  setImage={setImage}
+                  publicId={field.value}
+                  image={image}
+                  type={type}
+                />
+              )}
+            />
           </div>
-        )}
-
-        <div className="grid h-fit min-h-[200px] grid-cols-1 gap-5 py-4 md:grid-cols-2">
-          <CustomField
-            control={form.control}
-            name="publicId"
-            className="flex size-full flex-col"
-            render={({ field }) => (
-              <MediaUploader
-                onValueChange={field.onChange}
-                setImage={setImage}
-                publicId={field.value}
-                image={image}
-                type={type}
-              />
-            )}
-          />
 
           <TransformedImage
             image={image}
@@ -348,4 +254,4 @@ const TransformationForm = ({
   );
 };
 
-export default TransformationForm;
+export default StyleTransferForm;

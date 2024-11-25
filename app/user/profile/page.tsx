@@ -1,4 +1,3 @@
-import { auth } from "@clerk/nextjs";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
@@ -6,14 +5,15 @@ import { Collection } from "@/components/shared/Collection";
 import Header from "@/components/shared/Header";
 import { getUserImages } from "@/lib/actions/image.actions";
 import { getUserById } from "@/lib/actions/user.actions";
+import { currentUser } from "@clerk/nextjs/server";
 
 const Profile = async ({ searchParams }: SearchParamProps) => {
   const page = Number(searchParams?.page) || 1;
-  const { userId } = auth();
+  let user = currentUser();
 
-  if (!userId) redirect("/sign-in");
+  if (!user) await redirect("/sign-in");
 
-  const user = await getUserById(userId);
+  user = await getUserById(user?.id);
   const images = await getUserImages({ page, userId: user._id });
 
   return (

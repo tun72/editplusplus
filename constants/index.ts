@@ -6,39 +6,52 @@ export const navLinks = [
   },
   {
     label: "Image Restore",
-    route: "/transformations/add/restore",
+    route: "/user/transformations/add/restore",
     icon: "/assets/icons/image.svg",
   },
   {
     label: "Generative Fill",
-    route: "/transformations/add/fill",
+    route: "/user/transformations/add/fill",
     icon: "/assets/icons/stars.svg",
   },
   {
     label: "Object Remove",
-    route: "/transformations/add/remove",
+    route: "/user/transformations/add/remove",
     icon: "/assets/icons/scan.svg",
   },
+
   {
-    label: "Object Recolor",
-    route: "/transformations/add/recolor",
-    icon: "/assets/icons/filter.svg",
-  },
-  {
-    label: "Background Remove",
-    route: "/transformations/add/removeBackground",
+    label: "Dynamic light",
+    route: "/profile",
     icon: "/assets/icons/camera.svg",
   },
   {
+    label: "Background Remove",
+    route: "/user/transformations/add/removeBackground",
+    icon: "/assets/icons/camera.svg",
+  },
+
+  {
+    label: "Object Recolor",
+    route: "/user/transformations/add/recolor",
+    icon: "/assets/icons/filter.svg",
+  },
+  {
+    label: "Style Transfer",
+    route: "/user/transformations/add/restyle",
+    icon: "/assets/icons/camera.svg",
+  },
+
+  {
     label: "Profile",
-    route: "/profile",
+    route: "/credits",
     icon: "/assets/icons/profile.svg",
   },
-  // {
-  //   label: "Buy Credits",
-  //   route: "/credits",
-  //   icon: "/assets/icons/bag.svg",
-  // },
+  {
+    label: "Buy Credits",
+    route: "/credits",
+    icon: "/assets/icons/bag.svg",
+  },
 ];
 
 export const plans = [
@@ -159,6 +172,17 @@ export const transformationTypes = {
     },
     icon: "filter.svg",
   },
+
+  restyle: {
+    type: "restyle",
+    title: "Object Style Transformation",
+    subTitle: "Identify and style transform the image",
+    config: {
+      recolor: { prompt: "", to: "", multiple: true },
+    },
+    icon: "filter.svg",
+  },
+
 };
 
 export const aspectRatioOptions = {

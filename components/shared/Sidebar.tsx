@@ -6,39 +6,39 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
-import { ImageIcon } from "lucide-react";
 
 const Sidebar = () => {
   const pathname = usePathname();
 
   return (
-    <aside className="sidebar">
+    <aside className="hidden h-screen w-72 bg-white p-5 shadow-md shadow-purple-200/50 lg:flex">
       <div className="flex size-full flex-col gap-4">
         <Link
           href="/"
-          className="sidebar-logo text-purple-600 text-2xl font-bold text-center ml-3"
+          className="flex items-center gap-2 md:py-2 text-purple-600 text-2xl font-bold text-center ml-3"
         >
           {/* <ImageIcon />
           <h1>AI Image Demo</h1> */}
-          <Image src="/assets/logos/10.png" alt="logo" width={180} height={28} />
+          <Image src="/assets/logos/11.png" alt="logo" width={80} height={80} />
         </Link>
 
-        <nav className="sidebar-nav">
+        <nav className="h-full flex-col justify-between md:flex md:gap-4">
           <SignedIn>
-            <ul className="sidebar-nav_elements">
-              {navLinks.slice(0, 6).map((link) => {
+            <ul className="hidden w-full flex-col items-start gap-2 md:flex">
+              {navLinks.slice(0, 8).map((link) => {
                 const isActive = link.route === pathname;
 
                 return (
                   <li
                     key={link.route}
-                    className={`sidebar-nav_element group ${
-                      isActive
-                        ? "bg-purple-gradient text-white"
-                        : "text-gray-700"
+                    className={`flex-center p-16-semibold w-full whitespace-nowrap rounded-full bg-cover  transition-all hover:bg-purple-100 hover:shadow-inner group ${
+                      isActive ? "bg-yellow-500 text-white" : "text-gray-700"
                     }`}
                   >
-                    <Link className="sidebar-link" href={link.route}>
+                    <Link
+                      className="p-16-semibold flex size-full gap-4 p-4"
+                      href={link.route}
+                    >
                       <Image
                         src={link.icon}
                         alt="logo"
@@ -53,17 +53,47 @@ const Sidebar = () => {
               })}
             </ul>
 
-            <ul className="sidebar-nav_elements">
+            <ul className="hidden w-full flex-col items-start gap-2 md:flex">
+              {navLinks.slice(8).map((link) => {
+                const isActive = link.route === pathname;
+
+                return (
+                  <li
+                    key={link.route}
+                    className={`flex-center p-16-semibold w-full whitespace-nowrap rounded-full bg-cover  transition-all hover:bg-purple-100 hover:shadow-inner group ${
+                      isActive ? "bg-yellow-500 text-white" : "text-gray-700"
+                    }`}
+                  >
+                    <Link
+                      className="p-16-semibold flex size-full gap-4 p-4"
+                      href={link.route}
+                    >
+                      <Image
+                        src={link.icon}
+                        alt="logo"
+                        width={24}
+                        height={24}
+                        className={`${isActive && "brightness-200"}`}
+                      />
+                      {link.label}
+                    </Link>
+                  </li>
+                );
+              })}
+              <li className="flex-center cursor-pointer gap-2 p-4 ">
+                <UserButton />
+              </li>
+            </ul>
+
+            {/* <ul className="hidden w-full flex-col items-start gap-2 md:flex">
               {navLinks.slice(6).map((link) => {
                 const isActive = link.route === pathname;
 
                 return (
                   <li
                     key={link.route}
-                    className={`sidebar-nav_element group ${
-                      isActive
-                        ? "bg-purple-gradient text-white"
-                        : "text-gray-700"
+                    className={`flex-center p-16-semibold w-full whitespace-nowrap rounded-full bg-cover  transition-all hover:bg-purple-100 hover:shadow-inner group ${
+                      isActive ? "bg-yellow-500 text-white" : "text-gray-700"
                     }`}
                   >
                     <Link className="sidebar-link" href={link.route}>
@@ -80,10 +110,10 @@ const Sidebar = () => {
                 );
               })}
 
-              <li className="flex-center cursor-pointer gap-2 p-4">
-                <UserButton afterSignOutUrl="/" showName />
+              <li className="flex-center cursor-pointer gap-2 p-4 ">
+                <UserButton />
               </li>
-            </ul>
+            </ul> */}
           </SignedIn>
 
           <SignedOut>

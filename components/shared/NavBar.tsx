@@ -3,9 +3,10 @@ import MaxWidthWrapper from "./MaxWidthWrapper";
 import { buttonVariants } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import { currentUser } from "@clerk/nextjs/server";
 
 const NavBar = async () => {
-  const user = false;
+  const user = await currentUser();
 
   const isAdmin = false;
 
@@ -44,7 +45,8 @@ const NavBar = async () => {
                   href="/configure/upload"
                   className={buttonVariants({
                     size: "sm",
-                    className: "hidden sm:flex items-center gap-1 bg-yellow-400",
+                    className:
+                      "hidden sm:flex items-center gap-1 bg-yellow-400",
                   })}
                 >
                   Start Now
@@ -54,7 +56,7 @@ const NavBar = async () => {
             ) : (
               <>
                 <Link
-                  href="/api/auth/register"
+                  href="/sign-up"
                   className={buttonVariants({
                     size: "sm",
                     variant: "ghost",
@@ -64,7 +66,7 @@ const NavBar = async () => {
                 </Link>
 
                 <Link
-                  href="/api/auth/login"
+                  href="/sign-in"
                   className={buttonVariants({
                     size: "sm",
                     variant: "ghost",
@@ -79,7 +81,8 @@ const NavBar = async () => {
                   href="/configure/upload"
                   className={buttonVariants({
                     size: "sm",
-                    className: "hidden sm:flex items-center gap-1  bg-yellow-500",
+                    className:
+                      "hidden sm:flex items-center gap-1  bg-yellow-500",
                   })}
                 >
                   Start Now
