@@ -41,6 +41,7 @@ import { useRouter } from "next/navigation";
 import { InsufficientCreditsModal } from "./InsufficientCreditsModal";
 import axios from "axios";
 import { uploadToCloudinary } from "@/lib/actions/cloudinary.actions";
+import ImageResult from "./ImageResult";
 
 export const formSchema = z.object({
   title: z.string(),
@@ -48,10 +49,9 @@ export const formSchema = z.object({
   color: z.string().optional(),
   prompt: z.string().optional(),
   publicId: z.string(),
-  transformId: z.string(),
 });
 
-const StyleTransferForm = ({
+const ImageEnhance = ({
   action,
   data = null,
   userId,
@@ -61,7 +61,7 @@ const StyleTransferForm = ({
 }: TransformationFormProps) => {
   const transformationType = transformationTypes[type];
   const [image, setImage] = useState(data);
-  const [tranImage, setTranImage] = useState(data);
+  const [enhanceimage, setEnhanceImage] = useState(null);
 
   const [newTransformation, setNewTransformation] =
     useState<Transformations | null>(null);
@@ -88,8 +88,6 @@ const StyleTransferForm = ({
     defaultValues: initialValues,
   });
 
-  
-
   // cloudinary.v2.config({
   //   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   //   api_key: process.env.CLOUDINARY_API_KEY,
@@ -98,22 +96,7 @@ const StyleTransferForm = ({
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("submit");
-
     // console.log(image, tranImage);
-    const url = getCldImageUrl({
-      width: image?.width,
-      height: image?.height,
-      src: image?.publicId,
-    });
-
-    const response = await axios.post("/api/picpurify", {
-      image_url: url, // Use `image_url` to match the server-side handler
-    });
-
-    console.log(response);
-
-    setIsSubmitting(true);
 
     // console.log(data);
 
@@ -185,6 +168,25 @@ const StyleTransferForm = ({
   const onTransformHandler = async () => {
     setIsTransforming(true);
 
+    const url = getCldImageUrl({
+      width: image?.width,
+      height: image?.height,
+      src: image?.publicId,
+    });
+
+    const response = await axios.post("/api/picpurify", {
+      image_url: url, // Use `image_url` to match the server-side handler
+    });
+
+    console.log(response);
+    setEnhanceImage({
+      url: response.data.url,
+      width: image.width,
+      height: image.height,
+    });
+
+    setIsTransforming(false);
+
     // setTransformationConfig(
     //   deepMergeObjects(newTransformation, transformationConfig)
     // );
@@ -197,10 +199,10 @@ const StyleTransferForm = ({
   };
 
   useEffect(() => {
-    if (image && tranImage && type === "restyle") {
+    if (image && type === "enhance") {
       setNewTransformation(transformationType.config);
     }
-  }, [image, transformationType.config, type, tranImage]);
+  }, [image, transformationType.config, type]);
 
   return (
     <Form {...form}>
@@ -235,33 +237,11 @@ const StyleTransferForm = ({
                 />
               )}
             />
-            <CustomField
-              control={form.control}
-              name="transformId"
-              className="flex size-full flex-col"
-              render={({ field }) => (
-                <MediaUploader
-                  onValueChange={field.onChange}
-                  setImage={setTranImage}
-                  publicId={field.value}
-                  image={tranImage}
-                  type={type}
-                  title={"Transform"}
-                />
-              )}
-            />
           </div>
 
           {/* <image /> */}
 
-          {/* <TransformedImage
-            image={image}
-            type={type}
-            title={form.getValues().title}
-            isTransforming={isTransforming}
-            setIsTransforming={setIsTransforming}
-            transformationConfig={transformationConfig}
-          /> */}
+          <ImageResult image={enhanceimage} isTransforming={isTransforming} />
         </div>
 
         <div className="flex gap-4 justify-end text-white text-[24px]">
@@ -288,4 +268,4 @@ const StyleTransferForm = ({
   );
 };
 
-export default StyleTransferForm;
+export default ImageEnhance;

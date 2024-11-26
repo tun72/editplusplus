@@ -22,7 +22,7 @@ export const navLinks = [
 
   {
     label: "Dynamic light",
-    route: "/profile",
+    route: "/user/transformations/add/enhance",
     icon: "/assets/icons/camera.svg",
   },
   {
@@ -176,6 +176,16 @@ export const transformationTypes = {
   restyle: {
     type: "restyle",
     title: "Object Style Transformation",
+    subTitle: "Identify and style transform the image",
+    config: {
+      recolor: { prompt: "", to: "", multiple: true },
+    },
+    icon: "filter.svg",
+  },
+
+  enhance: {
+    type: "enhance",
+    title: "Image Enhance",
     subTitle: "Identify and style transform the image",
     config: {
       recolor: { prompt: "", to: "", multiple: true },

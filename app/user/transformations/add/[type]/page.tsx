@@ -1,4 +1,5 @@
 import Header from "@/components/shared/Header";
+import ImageEnhance from "@/components/shared/ImageEnhance";
 import StyleTransferForm from "@/components/shared/StyleTransferForm";
 import TransformationForm from "@/components/shared/TransformationForm";
 import { transformationTypes } from "@/constants";
@@ -29,6 +30,17 @@ const AddTransformationTypePage = async ({
   if (type === "restyle") {
     form = (
       <StyleTransferForm
+        action="Add"
+        userId={"67348dabb046a35acf7171ac"}
+        type={transformation.type as TransformationTypeKey}
+        creditBalance={100}
+      />
+    );
+  }
+
+  if (type === "enhance") {
+    form = (
+      <ImageEnhance
         action="Add"
         userId={"67348dabb046a35acf7171ac"}
         type={transformation.type as TransformationTypeKey}

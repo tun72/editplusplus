@@ -94,7 +94,8 @@ declare type TransformationTypeKey =
   | "remove"
   | "recolor"
   | "removeBackground"
-  | "restyle";
+  | "restyle"
+  | "enhance";
 
 // ====== URL QUERY PARAMS
 declare type FormUrlQueryParams = {
@@ -136,4 +137,9 @@ declare type TransformedImageProps = {
   isTransforming: boolean;
   hasDownload?: boolean;
   setIsTransforming?: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+declare type ImageResultProps = {
+  image: any;
+  isTransforming: boolean;
 };
