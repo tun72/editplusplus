@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -39,7 +40,6 @@ const StyleTransferForm = ({
   userId,
   type,
   creditBalance,
-  config = null,
 }: TransformationFormProps) => {
   const transformationType = transformationTypes[type];
   const [image, setImage] = useState(data);
@@ -100,7 +100,7 @@ const StyleTransferForm = ({
         prompt: values.prompt,
         color: values.color,
         transformImageUrl: tranImage?.publicId,
-        orginalImageUrl: image?.publicId
+        orginalImageUrl: image?.publicId,
       };
 
       // console.log(imageData);

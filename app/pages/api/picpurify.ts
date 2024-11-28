@@ -1,11 +1,5 @@
-import axios from "axios";
-
-import FormData from "form-data";
-
 export default function handler(req: Request, res: Response) {
-  console.log(req.body);
-
-  return res.json({ message: "success" });
+  return res.json();
   // if (req.method === "POST") {
   //   try {
   //     const picpurifyUrl = "https://www.picpurify.com/analyse/1.1";

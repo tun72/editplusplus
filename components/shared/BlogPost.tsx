@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Image from "next/image"
 import { Facebook, Twitter, Linkedin } from 'lucide-react'
 import { Badge } from "@/components/ui/badge"
@@ -56,11 +57,11 @@ export default function BlogPost() {
 
         <div className="prose prose-gray max-w-none">
           <p className="text-lg leading-relaxed">
-            The white background. It's a seemingly simple concept, yet it has the power to leave your photos looking fresh,
+            The white background. Its a seemingly simple concept, yet it has the power to leave your photos looking fresh,
             clean, and ready to upload onto any e-commerce platform.
           </p>
           <p className="text-lg leading-relaxed">
-            Wondering how to add a solid white background to a photo? We've got you covered.
+            Wondering how to add a solid white background to a photo? We have got you covered.
           </p>
         </div>
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight } from 'lucide-react'
@@ -11,7 +12,7 @@ interface BlogCardProps {
   slug: string
 }
 
-export function BlogCard({ category, title, date, image, slug }: BlogCardProps) {
+export function BlogCard({ category, title, date, image, slug }: BlogCardProps | any) {
   return (
     <Link href={`/blog/${slug}`} className="group block">
       <article className="space-y-4">

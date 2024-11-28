@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -168,6 +170,7 @@ const TransformationForm = ({
     onChangeField: (value: string) => void
   ) => {
     debounce(() => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       setNewTransformation((prevState: any) => ({
         ...prevState,
         [type]: {

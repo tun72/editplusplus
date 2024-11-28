@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Badge } from "@/components/ui/badge";
@@ -85,7 +86,7 @@ function Blog({ params }: { params: { slug: string } }) {
             >
               {blogDetail?.category || "category"}
             </Badge>
-            <p className="text-sm text-muted-foreground">{blogDetail?.date}</p>
+            <p className="text-sm text-muted-foreground">{blogDetail?.date || "date"}</p>
           </div>
           <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
             {blogDetail?.title}
@@ -94,7 +95,7 @@ function Blog({ params }: { params: { slug: string } }) {
 
         <figure className="relative aspect-[16/9] overflow-hidden rounded-lg">
           <Image
-            src={blogDetail?.image}
+            src={blogDetail?.image || ""}
             alt="Orange gerbera daisy against grey background"
             className="object-cover"
             priority

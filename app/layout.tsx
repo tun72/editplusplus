@@ -3,11 +3,9 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/toaster";
-import {NextIntlClientProvider} from 'next-intl';
 
-import {getMessages} from 'next-intl/server';
-import {notFound} from 'next/navigation';
-import {routing} from '@/i18n/routing';
+
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",

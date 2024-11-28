@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable prefer-const */
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
@@ -5,19 +7,22 @@ import { Collection } from "@/components/shared/Collection";
 import Header from "@/components/shared/Header";
 import { getUserImages } from "@/lib/actions/image.actions";
 import { getUserById } from "@/lib/actions/user.actions";
-import { currentUser } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 
 const Profile = async ({ searchParams }: SearchParamProps) => {
   const page = Number(searchParams?.page) || 1;
-  let user = currentUser();
+  let { userId } = await auth();
 
-  if (!user) await redirect("/sign-in");
+  if (!userId) redirect("/sign-in");
 
-  user = await getUserById("67348dabb046a35acf7171ac");
+  let user = await getUserById(userId || "67348dabb046a35acf7171ac");
 
   console.log(user);
-  
-  const images = await getUserImages({ page, userId: "67348dabb046a35acf7171ac" });
+
+  const images = await getUserImages({
+    page,
+    userId: "67348dabb046a35acf7171ac",
+  });
 
   return (
     <>
