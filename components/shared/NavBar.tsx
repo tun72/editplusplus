@@ -1,9 +1,10 @@
 import Link from "next/link";
 import MaxWidthWrapper from "./MaxWidthWrapper";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { currentUser } from "@clerk/nextjs/server";
+import { SignOutButton } from "@clerk/nextjs";
 
 const NavBar = async () => {
   const user = await currentUser();
@@ -21,15 +22,11 @@ const NavBar = async () => {
           <div className="h-full flex items-center space-x-4">
             {user ? (
               <>
-                <Link
-                  href="/api/auth/logout"
-                  className={buttonVariants({
-                    size: "sm",
-                    variant: "ghost",
-                  })}
-                >
-                  Sign out
-                </Link>
+                <SignOutButton>
+                  <Button size="sm" variant="ghost">
+                    Sign out
+                  </Button>
+                </SignOutButton>
                 {isAdmin ? (
                   <Link
                     href="/dashboard"
@@ -42,7 +39,7 @@ const NavBar = async () => {
                   </Link>
                 ) : null}
                 <Link
-                  href="/configure/upload"
+                  href="/user"
                   className={buttonVariants({
                     size: "sm",
                     className:
@@ -69,7 +66,8 @@ const NavBar = async () => {
                   href="/sign-in"
                   className={buttonVariants({
                     size: "sm",
-                    variant: "ghost",
+                    className:
+                      "hidden sm:flex items-center gap-1  bg-yellow-500",
                   })}
                 >
                   Login
@@ -77,8 +75,8 @@ const NavBar = async () => {
 
                 <div className="h-8 w-px bg-zinc-200 hidden sm:block" />
 
-                <Link
-                  href="/configure/upload"
+                {/* <Link
+                  href="/user"
                   className={buttonVariants({
                     size: "sm",
                     className:
@@ -87,7 +85,7 @@ const NavBar = async () => {
                 >
                   Start Now
                   <ArrowRight className="ml-1.5 h-5 w-5" />
-                </Link>
+                </Link> */}
               </>
             )}
           </div>

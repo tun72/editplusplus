@@ -3,6 +3,11 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/toaster";
+import {NextIntlClientProvider} from 'next-intl';
+
+import {getMessages} from 'next-intl/server';
+import {notFound} from 'next/navigation';
+import {routing} from '@/i18n/routing';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -42,5 +47,50 @@ export default function RootLayout({
     </ClerkProvider>
   );
 }
+
+// export default async function LocaleLayout({
+//   children,
+//   params: { locale },
+// }: {
+//   children: React.ReactNode;
+//   params: { locale: string };
+// }) {
+//   // Ensure that the incoming `locale` is valid
+//   if (!routing.locales.includes(locale as any)) {
+//     notFound();
+//   }
+
+//   // Providing all messages to the client
+//   // side is the easiest way to get started
+//   const messages = await getMessages();
+
+//   console.log(locale);
+  
+
+//   return (
+//     <html lang={locale}>
+//       <body>
+//         <NextIntlClientProvider messages={messages}>
+//           <ClerkProvider
+//             appearance={{
+//               variables: { colorPrimary: "#624cf5" },
+//             }}
+//           >
+//             <html lang={locale}>
+//               <body
+//                 className={`${geistSans.variable} ${geistMono.variable} antialiased  flex flex-col`}
+//               >
+//                 <main className=" relative flex-1 flex flex-col">
+//                   {children}{" "}
+//                 </main>
+//                 <Toaster />
+//               </body>
+//             </html>
+//           </ClerkProvider>
+//         </NextIntlClientProvider>
+//       </body>
+//     </html>
+//   );
+// }
 
 // min-h-[calc(100ch-1px)]

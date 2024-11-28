@@ -1,5 +1,5 @@
 // import ImageComparisonSlider from "@/components/shared/image-comparitson-slider";
-
+"use client";
 import MaxWidthWrapper from "@/components/shared/MaxWidthWrapper";
 import ShinyButton from "@/components/shared/ShinnyButton";
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,10 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Icons } from "@/components/ui/icons";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import {
+  ReactCompareSlider,
+  ReactCompareSliderImage,
+} from "react-compare-slider";
 
 import {
   ArrowRight,
@@ -223,24 +227,24 @@ export default function Home() {
             </nav>
 
             {/* Image Showcase */}
-            <div className="relative w-full max-w-4xl mx-auto rounded-3xl overflow-hidden mb-8">
-              <div className="aspect-[16/9]">
-                <Image
-                  src="/assets/images/free-images.jpg"
-                  alt="Smiling toddler in light blue patterned outfit"
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
-              <Button
-                variant="outline"
-                size="icon"
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm hover:bg-white/90 rounded-full w-12 h-12"
-              >
-                <MoveRight className="h-6 w-6" />
-                <span className="sr-only">Next image</span>
-              </Button>
+            <div className="relative w-full max-w-4xl mx-auto rounded-3xl overflow-hidden mb-8 bg-gray-50">
+              <ReactCompareSlider
+                className=" "
+                itemOne={
+                  <ReactCompareSliderImage
+                    src={"/assets/images/image2.png"}
+                    srcSet={"/assets/images/image2.png"}
+                    alt={"Image one"}
+                  />
+                }
+                itemTwo={
+                  <ReactCompareSliderImage
+                    src={"/assets/images/images1.jpg"}
+                    srcSet={"/assets/images/image1.jpg"}
+                    alt={"Image two"}
+                  />
+                }
+              />
             </div>
 
             {/* Call to Action */}
@@ -274,7 +278,7 @@ export default function Home() {
 
               <div className="text-typo text-base">
                 <p className="text-base mb-4 leading-tight">
-                  Thanks to remove.bg's clever AI, you can slash editing time -
+                  Thanks to  clever AI, you can slash editing time -
                   and have more fun!
                 </p>
                 <p className="text-base">
@@ -318,7 +322,7 @@ export default function Home() {
       </section>
 
       <section className=" relative mt-12 my-12 md:mt-32 bg-pattern-brand bg-repeat-x bg-yellow-400">
-        <div className="absolute top-[-9%] left-0 right-0 hidden md:block">
+        <div className="absolute top-[-7%] left-0 right-0 hidden md:block">
           <svg
             viewBox="0 0 1440 48"
             fill="none"
@@ -629,3 +633,23 @@ export default function Home() {
 //                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t via-slate-50/50 from-slate-50 h-28" />
 //                 {/* <img src="/snake-1.png" className="w-full" /> */}
 //               </div>
+
+// <div className="aspect-[16/9]">
+{
+  /* <Image
+src="/assets/images/free-images.jpg"
+alt="Smiling toddler in light blue patterned outfit"
+fill
+className="object-cover"
+priority
+/>
+</div>
+<Button
+variant="outline"
+size="icon"
+className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm hover:bg-white/90 rounded-full w-12 h-12"
+>
+<MoveRight className="h-6 w-6" />
+<span className="sr-only">Next image</span>
+</Button> */
+}

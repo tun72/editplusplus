@@ -1,45 +1,39 @@
-/* eslint-disable camelcase */
-import { clerkClient } from "@clerk/nextjs";
-import { WebhookEvent } from "@clerk/nextjs/server";
-import { headers } from "next/headers";
-import { NextResponse } from "next/server";
 import { Webhook } from "svix";
-
-import { createUser, deleteUser, updateUser } from "@/lib/actions/user.actions";
+import { headers } from "next/headers";
+import { WebhookEvent } from "@clerk/nextjs/server";
 
 export async function POST(req: Request) {
-  // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
-  const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
+  const SIGNING_SECRET = process.env.SIGNING_SECRET;
 
-  if (!WEBHOOK_SECRET) {
+  if (!SIGNING_SECRET) {
     throw new Error(
-      "Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local"
+      "Error: Please add SIGNING_SECRET from Clerk Dashboard to .env or .env.local"
     );
   }
 
-  // Get the headers
+  // Create new Svix instance with secret
+  const wh = new Webhook(SIGNING_SECRET);
+
+  // Get headers
   const headerPayload = headers();
-  const svix_id = headerPayload.get("svix-id");
-  const svix_timestamp = headerPayload.get("svix-timestamp");
-  const svix_signature = headerPayload.get("svix-signature");
+  const svix_id = (await headerPayload).get("svix-id");
+  const svix_timestamp = (await headerPayload).get("svix-timestamp");
+  const svix_signature = (await headerPayload).get("svix-signature");
 
   // If there are no headers, error out
   if (!svix_id || !svix_timestamp || !svix_signature) {
-    return new Response("Error occured -- no svix headers", {
+    return new Response("Error: Missing Svix headers", {
       status: 400,
     });
   }
 
-  // Get the body
+  // Get body
   const payload = await req.json();
   const body = JSON.stringify(payload);
 
-  // Create a new Svix instance with your secret.
-  const wh = new Webhook(WEBHOOK_SECRET);
-
   let evt: WebhookEvent;
 
-  // Verify the payload with the headers
+  // Verify payload with headers
   try {
     evt = wh.verify(body, {
       "svix-id": svix_id,
@@ -47,70 +41,42 @@ export async function POST(req: Request) {
       "svix-signature": svix_signature,
     }) as WebhookEvent;
   } catch (err) {
-    console.error("Error verifying webhook:", err);
-    return new Response("Error occured", {
+    console.error("Error: Could not verify webhook:", err);
+    return new Response("Error: Verification error", {
       status: 400,
     });
   }
 
-  // Get the ID and type
-  const { id } = evt.data;
+  // Do something with payload
+  // For this guide, log payload to console
+
   const eventType = evt.type;
 
-  // CREATE
   if (eventType === "user.created") {
-    const { id, email_addresses, image_url, first_name, last_name, username } = evt.data;
+    const { id, username, email_addresses } = evt.data;
+    console.log(
+      "Our user details",
+      id,
+      username,
+      email_addresses[0].email_address
+    );
 
-    const user = {
-      clerkId: id,
-      email: email_addresses[0].email_address,
-      username: username!,
-      firstName: first_name,
-      lastName: last_name,
-      photo: image_url,
-    };
-
-    const newUser = await createUser(user);
-
-    // Set public metadata
-    if (newUser) {
-      await clerkClient.users.updateUserMetadata(id, {
-        publicMetadata: {
-          userId: newUser._id,
-        },
-      });
-    }
-
-    return NextResponse.json({ message: "OK", user: newUser });
+    //call server action to create user to database
   }
 
-  // UPDATE
-  if (eventType === "user.updated") {
-    const { id, image_url, first_name, last_name, username } = evt.data;
-
-    const user = {
-      firstName: first_name,
-      lastName: last_name,
-      username: username!,
-      photo: image_url,
-    };
-
-    const updatedUser = await updateUser(id, user);
-
-    return NextResponse.json({ message: "OK", user: updatedUser });
-  }
-
-  // DELETE
   if (eventType === "user.deleted") {
     const { id } = evt.data;
+    console.log("Our deleted user details", id);
 
-    const deletedUser = await deleteUser(id!);
-
-    return NextResponse.json({ message: "OK", user: deletedUser });
+    //call server action to delete user from database
   }
 
-  console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
-  console.log("Webhook body:", body);
+  if (eventType === "user.updated") {
+    const { id } = evt.data;
+    console.log("Our updated user details", id);
 
-  return new Response("", { status: 200 });
+    //call server action to update user on the database
+  }
+
+  return new Response("everything good", { status: 200 });
 }
