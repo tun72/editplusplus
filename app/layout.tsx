@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,11 +33,14 @@ export default function RootLayout({
     >
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-[calc(100ch-1px)] flex flex-col`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased  flex flex-col`}
         >
           <main className=" relative flex-1 flex flex-col">{children} </main>
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>
   );
 }
+
+// min-h-[calc(100ch-1px)]

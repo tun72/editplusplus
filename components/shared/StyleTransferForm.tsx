@@ -88,8 +88,6 @@ const StyleTransferForm = ({
     defaultValues: initialValues,
   });
 
-  
-
   // cloudinary.v2.config({
   //   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   //   api_key: process.env.CLOUDINARY_API_KEY,
@@ -184,6 +182,43 @@ const StyleTransferForm = ({
 
   const onTransformHandler = async () => {
     setIsTransforming(true);
+
+    console.log(image);
+    console.log(tranImage);
+
+    const url = getCldImageUrl({
+      width: image?.width,
+      height: image?.height,
+      src: image?.publicId,
+    });
+
+    try {
+      setIsTransforming(true);
+      console.log("hit");
+
+      const response = await axios.post("/api/transfer", {
+        image: image?.secureURL, // Use `image_url` to match the server-side handler
+        style: tranImage?.secureURL,
+      });
+      console.log(response);
+      // setEnhanceImage({
+      //   url: response.data.url,
+      //   width: image.width,
+      //   height: image.height,
+      // });
+    } catch (err: any) {
+      console.log(err);
+
+      // toast(err.message);
+      // toast({
+      //   title: "Error!",
+      //   description: err.message,
+      //   duration: 5000,
+      //   className: "error-toast",
+      // });
+    } finally {
+      setIsTransforming(false);
+    }
 
     // setTransformationConfig(
     //   deepMergeObjects(newTransformation, transformationConfig)
@@ -282,6 +317,8 @@ const StyleTransferForm = ({
           >
             {isSubmitting ? "Submitting..." : "Save Image"}
           </Button>
+
+          
         </div>
       </form>
     </Form>

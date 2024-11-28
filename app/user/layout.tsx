@@ -4,7 +4,7 @@ import { Toaster } from '@/components/ui/toaster'
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <main className="flex min-h-screen w-full flex-col bg-white lg:flex-row">
+    <main className="flex min-h-screen w-full flex-col  bg-gray-50 lg:flex-row">
       <Sidebar />
       <MobileNav />
 

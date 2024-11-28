@@ -143,3 +143,9 @@ declare type ImageResultProps = {
   image: any;
   isTransforming: boolean;
 };
+
+declare type enhanceImage = {
+  url: string;
+  width?: number;
+  height?: number;
+};

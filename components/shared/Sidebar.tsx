@@ -11,15 +11,12 @@ const Sidebar = () => {
   const pathname = usePathname();
 
   return (
-    <aside className="hidden h-screen w-72 bg-white p-5 shadow-md shadow-purple-200/50 lg:flex">
+    <aside className="hidden  w-72 bg-white p-5 shadow-md shadow-yellow-200/50 lg:flex">
       <div className="flex size-full flex-col gap-4">
-        <Link
-          href="/"
-          className="flex items-center gap-2 md:py-2 text-purple-600 text-2xl font-bold text-center ml-3"
-        >
+        <Link href="/user" className="h-[50px] w-[100%] flex items-center ml-5">
           {/* <ImageIcon />
           <h1>AI Image Demo</h1> */}
-          <Image src="/assets/logos/11.png" alt="logo" width={80} height={80} />
+          <Image src={"/logos/11.png"} alt="logo" width={100} height={100} />
         </Link>
 
         <nav className="h-full flex-col justify-between md:flex md:gap-4">
@@ -31,8 +28,8 @@ const Sidebar = () => {
                 return (
                   <li
                     key={link.route}
-                    className={`flex-center p-16-semibold w-full whitespace-nowrap rounded-full bg-cover  transition-all hover:bg-purple-100 hover:shadow-inner group ${
-                      isActive ? "bg-yellow-500 text-white" : "text-gray-700"
+                    className={`flex-center p-16-semibold w-full whitespace-nowrap rounded-full bg-cover  transition-all hover:bg-yellow-100 hover:shadow-inner group ${
+                      isActive ? "bg-yellow-500 text-white hover:bg-yellow-600" : "text-gray-700"
                     }`}
                   >
                     <Link
@@ -60,7 +57,7 @@ const Sidebar = () => {
                 return (
                   <li
                     key={link.route}
-                    className={`flex-center p-16-semibold w-full whitespace-nowrap rounded-full bg-cover  transition-all hover:bg-purple-100 hover:shadow-inner group ${
+                    className={`flex-center p-16-semibold w-full whitespace-nowrap rounded-full bg-cover  transition-all hover:bg-yellow-100 hover:shadow-inner group ${
                       isActive ? "bg-yellow-500 text-white" : "text-gray-700"
                     }`}
                   >
@@ -92,7 +89,7 @@ const Sidebar = () => {
                 return (
                   <li
                     key={link.route}
-                    className={`flex-center p-16-semibold w-full whitespace-nowrap rounded-full bg-cover  transition-all hover:bg-purple-100 hover:shadow-inner group ${
+                    className={`flex-center p-16-semibold w-full whitespace-nowrap rounded-full bg-cover  transition-all hover:bg-yellow-100 hover:shadow-inner group ${
                       isActive ? "bg-yellow-500 text-white" : "text-gray-700"
                     }`}
                   >
@@ -117,7 +114,7 @@ const Sidebar = () => {
           </SignedIn>
 
           <SignedOut>
-            <Button asChild className="button bg-purple-gradient bg-cover">
+            <Button asChild className="button bg-yellow-gradient bg-cover">
               <Link href="/sign-in">Login</Link>
             </Button>
           </SignedOut>

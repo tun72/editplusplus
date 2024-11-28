@@ -1,4 +1,3 @@
-import { auth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -8,9 +7,12 @@ import { Button } from "@/components/ui/button";
 import { getImageById } from "@/lib/actions/image.actions";
 import { getImageSize } from "@/lib/utils";
 import { DeleteConfirmation } from "@/components/shared/DeleteConfirmation";
+import { currentUser } from "@clerk/nextjs/server";
+import ImageResult from "@/components/shared/ImageResult";
 
 const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
-  const { userId } = auth();
+  // const { userId } = auth();
+  const userId = currentUser();
 
   const image = await getImageById(id);
 
@@ -18,7 +20,7 @@ const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
     <>
       <Header title={image.title} />
 
-      <section className="mt-5 flex flex-wrap gap-4">
+      <section className="mt-5 flex flex-wrap gap-4 ">
         <div className="p-14-medium md:p-16-medium flex gap-2">
           <p className="text-dark-600">Transformation:</p>
           <p className=" capitalize text-purple-400">
@@ -57,7 +59,7 @@ const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
         )}
       </section>
 
-      <section className="mt-10 border-t border-dark-400/15">
+      <section className="mt-10 border-t border-dark-400/15 ">
         <div className="transformation-grid">
           {/* MEDIA UPLOADER */}
           <div className="flex flex-col gap-4">
@@ -73,14 +75,25 @@ const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
           </div>
 
           {/* TRANSFORMED IMAGE */}
-          <TransformedImage
-            image={image}
-            type={image.transformationType}
-            title={image.title}
-            isTransforming={false}
-            transformationConfig={image.config}
-            hasDownload={true}
-          />
+          {image.transformationType === "enhance" ? (
+            <ImageResult
+              image={{
+                url: image.secureURL,
+                width: image.width,
+                height: image.height,
+              }}
+              isTransforming={false}
+            />
+          ) : (
+            <TransformedImage
+              image={image}
+              type={image.transformationType}
+              title={image.title}
+              isTransforming={false}
+              transformationConfig={image.config}
+              hasDownload={true}
+            />
+          )}
         </div>
 
         {userId === image.author.clerkId && (

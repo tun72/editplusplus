@@ -40,14 +40,14 @@ export async function POST(req: Request, res: Response) {
 
   const data = await req.json();
 
-  console.log(data);
+  console.log(data, "Dwadwad");
 
   const apiUrl = "https://deep-image.ai/rest_api/process_result";
 
   // Request headers
   const headers = {
     "Content-Type": "application/json",
-    "X-API-Key": "6e470720-ab40-11ef-a0e4-45c4a916b544", // Replace 'API_KEY' with your actual API key
+    "X-API-Key": "d8f760b0-acdf-11ef-bf44-39e16bc38d8c", // Replace 'API_KEY' with your actual API key
   };
 
   // Request data
@@ -59,6 +59,11 @@ export async function POST(req: Request, res: Response) {
 
   // Make POST request using Axios
   const result = await axios.post(apiUrl, requestData, { headers });
+
+  if (!result.data.result_url) {
+    throw new Error(result.data.processing_info);
+  }
+
   // .then((response) => {
   //   console.log("Response:", response.data);
   // })
@@ -66,7 +71,7 @@ export async function POST(req: Request, res: Response) {
   //   console.error("Error:", error.message);
   // });
 
-  
-
-  return NextResponse.json({ url: result.data.result_url });
+  return NextResponse.json({ url: result.data.result_url }); //  "https://neuroapi-store.s3.eu-central-1.amazonaws.com/2024-11-27/ace4bfc3-dc9d-4682-a412-4a065a72b760.jpg"
 }
+
+//"https://neuroapi-store.s3.eu-central-1.amazonaws.com/2024-11-27/8e26c7e8-e0c4-454f-9fa1-a32ae0adc8bf.jpg"

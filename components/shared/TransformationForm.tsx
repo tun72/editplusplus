@@ -46,7 +46,7 @@ export const formSchema = z.object({
   color: z.string().optional(),
   prompt: z.string().optional(),
   publicId: z.string(),
-  transformId: z.string()
+  transformId: z.string().optional(),
 });
 
 const TransformationForm = ({
@@ -121,7 +121,7 @@ const TransformationForm = ({
           if (newImage) {
             form.reset();
             setImage(data);
-            router.push(`/transformations/${newImage._id}`);
+            router.push(`/user/transformations/${newImage._id}`);
           }
         } catch (error) {
           console.log(error);
@@ -217,7 +217,12 @@ const TransformationForm = ({
           name="title"
           formLabel="Image Title"
           className="w-full"
-          render={({ field }) => <Input {...field} className="rounded-[16px] border-2 border-purple-200/20 shadow-sm shadow-purple-200/15 text-dark-600 disabled:opacity-100 p-16-semibold h-[50px] md:h-[54px] focus-visible:ring-offset-0 px-4 py-3 focus-visible:ring-transparent" />}
+          render={({ field }) => (
+            <Input
+              {...field}
+              className="rounded-[16px] border-2 border-purple-200/20 shadow-sm shadow-purple-200/15 text-dark-600 disabled:opacity-100 p-16-semibold h-[50px] md:h-[54px] focus-visible:ring-offset-0 px-4 py-3 focus-visible:ring-transparent"
+            />
+          )}
         />
 
         {type === "fill" && (
@@ -238,7 +243,11 @@ const TransformationForm = ({
                 </SelectTrigger>
                 <SelectContent>
                   {Object.keys(aspectRatioOptions).map((key) => (
-                    <SelectItem key={key} value={key} className="py-3 cursor-pointer hover:bg-purple-100">
+                    <SelectItem
+                      key={key}
+                      value={key}
+                      className="py-3 cursor-pointer hover:bg-purple-100"
+                    >
                       {aspectRatioOptions[key as AspectRatioKey].label}
                     </SelectItem>
                   ))}
@@ -342,6 +351,30 @@ const TransformationForm = ({
           >
             {isSubmitting ? "Submitting..." : "Save Image"}
           </Button>
+
+          {newTransformation !== null && (
+            <Button
+              type="button"
+              className="bg-gray-100 hover:bg-gray-200 shadow-md text-gray-800"
+              disabled={isSubmitting}
+              onClick={() => {
+                // console.log("hit");
+                // setNewTransformation(null)
+                // setImage((prev) => null)
+
+                window.location.reload();
+
+                // currently this for short I will deal with this later
+                
+                // setNewTransformation(null)
+                // setImage(null)
+                
+
+              }}
+            >
+              restart
+            </Button>
+          )}
         </div>
       </form>
     </Form>

@@ -7,7 +7,19 @@ const nextConfig = {
                 protocol: "https",
                 hostname: "neuroapi-store.s3.eu-central-1.amazonaws.com",
             },
+            {
+                protocol: 'https',
+                hostname: 'res.cloudinary.com',
+                port: ''
+            },
+
+            {
+                protocol: 'https',
+                hostname: 'cdn.sanity.io',
+                port: ''
+            }
         ],
+
     },
 };
 

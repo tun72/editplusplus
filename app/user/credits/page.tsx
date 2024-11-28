@@ -7,13 +7,15 @@ import { Button } from "@/components/ui/button";
 import { plans } from "@/constants";
 import { getUserById } from "@/lib/actions/user.actions";
 import Checkout from "@/components/shared/Checkout";
+import { currentUser } from "@clerk/nextjs/server";
 
 const Credits = async () => {
-  const { userId } = auth();
+  // const { userId } = auth();
+  const userId = currentUser();
 
   if (!userId) redirect("/sign-in");
 
-  const user = await getUserById(userId);
+  const user = await getUserById("67348dabb046a35acf7171ac");
 
   return (
     <>
@@ -28,7 +30,7 @@ const Credits = async () => {
             <li key={plan.name} className="credits-item">
               <div className="flex-center flex-col gap-3">
                 <Image src={plan.icon} alt="check" width={50} height={50} />
-                <p className="p-20-semibold mt-2 text-purple-500">
+                <p className="p-20-semibold mt-2 text-yellow-500">
                   {plan.name}
                 </p>
                 <p className="h1-semibold text-dark-600">${plan.price}</p>

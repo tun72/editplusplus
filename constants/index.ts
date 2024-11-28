@@ -21,9 +21,9 @@ export const navLinks = [
   },
 
   {
-    label: "Dynamic light",
+    label: "Enhance Image",
     route: "/user/transformations/add/enhance",
-    icon: "/assets/icons/camera.svg",
+    icon: "/assets/icons/image.svg",
   },
   {
     label: "Background Remove",
@@ -39,7 +39,7 @@ export const navLinks = [
   {
     label: "Style Transfer",
     route: "/user/transformations/add/restyle",
-    icon: "/assets/icons/camera.svg",
+    icon: "/assets/icons/image.svg",
   },
 
   {

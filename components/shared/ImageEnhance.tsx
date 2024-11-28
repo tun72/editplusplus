@@ -4,44 +4,24 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  aspectRatioOptions,
-  creditFee,
-  defaultValues,
-  transformationTypes,
-} from "@/constants";
+import { creditFee, defaultValues, transformationTypes } from "@/constants";
 import { CustomField } from "./CustomField";
-import { useEffect, useState, useTransition } from "react";
-import { AspectRatioKey, debounce, deepMergeObjects } from "@/lib/utils";
+import { useEffect, useState } from "react";
+
 import MediaUploader from "./MediaUploader";
-import TransformedImage from "./TransformedImage";
-import { updateCredits } from "@/lib/actions/user.actions";
+
 import { getCldImageUrl } from "next-cloudinary";
-import { addImage, updateImage } from "@/lib/actions/image.actions";
-import { useRouter } from "next/navigation";
+
 import { InsufficientCreditsModal } from "./InsufficientCreditsModal";
 import axios from "axios";
-import { uploadToCloudinary } from "@/lib/actions/cloudinary.actions";
+
 import ImageResult from "./ImageResult";
+import { addImage, updateImage } from "@/lib/actions/image.actions";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 export const formSchema = z.object({
   title: z.string(),
@@ -61,15 +41,15 @@ const ImageEnhance = ({
 }: TransformationFormProps) => {
   const transformationType = transformationTypes[type];
   const [image, setImage] = useState(data);
-  const [enhanceimage, setEnhanceImage] = useState(null);
+  const [enhanceimage, setEnhanceImage] = useState<enhanceImage | null>(null);
 
   const [newTransformation, setNewTransformation] =
     useState<Transformations | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isTransforming, setIsTransforming] = useState(false);
-  // const [transformationConfig, setTransformationConfig] = useState(config);
-  // const [isPending, startTransition] = useTransition();
-  // const router = useRouter();
+
+  const router = useRouter();
+  const { toast } = useToast();
 
   const initialValues =
     data && action === "Update"
@@ -88,104 +68,108 @@ const ImageEnhance = ({
     defaultValues: initialValues,
   });
 
-  // cloudinary.v2.config({
-  //   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  //   api_key: process.env.CLOUDINARY_API_KEY,
-  //   api_secret: process.env.CLOUDINARY_API_SECRET,
-  // });
-
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     // console.log(image, tranImage);
 
-    // console.log(data);
+    if (data || enhanceimage) {
+      const transformationUrl = enhanceimage?.url || "url";
 
-    // if (data || image) {
-    //   const transformationUrl = getCldImageUrl({
-    //     width: image?.width,
-    //     height: image?.height,
-    //     src: image?.publicId,
-    //     ...transformationConfig,
-    //   });
+      const imageData = {
+        title: values.title,
+        publicId: image?.publicId,
+        transformationType: type,
+        config: {},
+        width: enhanceimage?.width || 1000,
+        height: enhanceimage?.height || 1000,
+        secureURL: enhanceimage?.url || image?.secureURL,
+        transformationURL: transformationUrl,
+        aspectRatio: values.aspectRatio,
+        prompt: values.prompt,
+        color: values.color,
+      };
 
-    //   const imageData = {
-    //     title: values.title,
-    //     publicId: image?.publicId,
-    //     transformationType: type,
-    //     width: image?.width,
-    //     height: image?.height,
-    //     config: transformationConfig,
-    //     secureURL: image?.secureURL,
-    //     transformationURL: transformationUrl,
-    //     aspectRatio: values.aspectRatio,
-    //     prompt: values.prompt,
-    //     color: values.color,
-    //   };
+      // console.log(imageData);
 
-    //   console.log(imageData);
+      if (action === "Add") {
+        try {
+          const newImage = await addImage({
+            image: imageData,
+            userId,
+            path: "/",
+          });
 
-    //   // if (action === "Add") {
-    //   //   try {
-    //   //     const newImage = await addImage({
-    //   //       image: imageData,
-    //   //       userId,
-    //   //       path: "/",
-    //   //     });
+          if (newImage) {
+            form.reset();
+            setImage(data);
 
-    //   //     if (newImage) {
-    //   //       form.reset();
-    //   //       setImage(data);
-    //   //       router.push(`/transformations/${newImage._id}`);
-    //   //     }
-    //   //   } catch (error) {
-    //   //     console.log(error);
-    //   //   }
-    //   // }
+            toast({
+              title: "Success",
+              description: "Successfully Save",
+              duration: 5000,
+              className: "success-toast",
+            });
+            router.push(`/user/transformations/${newImage._id}`);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
 
-    //   // if (action === "Update") {
-    //   //   try {
-    //   //     const updatedImage = await updateImage({
-    //   //       image: {
-    //   //         ...imageData,
-    //   //         _id: data._id,
-    //   //       },
-    //   //       userId,
-    //   //       path: `/transformations/${data._id}`,
-    //   //     });
+      if (action === "Update") {
+        try {
+          const updatedImage = await updateImage({
+            image: {
+              ...imageData,
+              _id: data._id,
+            },
+            userId,
+            path: `/transformations/${data._id}`,
+          });
 
-    //   //     if (updatedImage) {
-    //   //       router.push(`/transformations/${updatedImage._id}`);
-    //   //     }
-    //   //   } catch (error) {
-    //   //     console.log(error);
-    //   //   }
-    //   // }
-    // }
+          if (updatedImage) {
+            router.push(`/transformations/${updatedImage._id}`);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
 
     setIsSubmitting(false);
   }
 
   const onTransformHandler = async () => {
-    setIsTransforming(true);
-
     const url = getCldImageUrl({
       width: image?.width,
       height: image?.height,
       src: image?.publicId,
     });
 
-    const response = await axios.post("/api/picpurify", {
-      image_url: url, // Use `image_url` to match the server-side handler
-    });
+    try {
+      setIsTransforming(true);
+      console.log("hit");
 
-    console.log(response);
-    setEnhanceImage({
-      url: response.data.url,
-      width: image.width,
-      height: image.height,
-    });
-
-    setIsTransforming(false);
+      const response = await axios.post("/api/picpurify", {
+        image_url: url, // Use `image_url` to match the server-side handler
+      });
+      console.log(response);
+      setEnhanceImage({
+        url: response.data.url,
+        width: image.width,
+        height: image.height,
+      });
+    } catch (err: any) {
+      // toast(err.message);
+      toast({
+        title: "Error!",
+        description: err.message,
+        duration: 5000,
+        className: "error-toast",
+      });
+    } finally {
+      setIsTransforming(false);
+    }
 
     // setTransformationConfig(
     //   deepMergeObjects(newTransformation, transformationConfig)
@@ -269,3 +253,5 @@ const ImageEnhance = ({
 };
 
 export default ImageEnhance;
+
+//"https://neuroapi-store.s3.eu-central-1.amazonaws.com/2024-11-27/51fc5a37-c1b3-459b-9659-a90f0661a693.jpg""https://neuroapi-store.s3.eu-central-1.amazonaws.com/2024-11-27/395e6f1d-8d41-4066-9efc-21f5e1bd07ee.jpg"
