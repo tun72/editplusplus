@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { BlogCard } from "@/components/shared/BlogCard";
 
@@ -43,7 +44,7 @@ const client = createClient({
 // ];
 
 export default function BlogPage() {
-  const [blogPosts, setBlogPosts] = useState([]);
+  const [blogPosts, setBlogPosts] = useState<any>([]);
   useEffect(() => {
     async function getStaticProps() {
       const query = ` *[_type == "post"]{
@@ -88,7 +89,7 @@ export default function BlogPage() {
 
       {blogPosts ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-          {blogPosts.map((post, index) => (
+          {blogPosts.map((post: { category: any; title: any; date: any; image: any; slug: { current: any; }; }, index: any) => (
             <BlogCard
               key={index}
               category={post?.category || "category"}
