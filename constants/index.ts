@@ -1,10 +1,5 @@
 export const navLinks = [
   {
-    label: "Home",
-    route: "/",
-    icon: "/assets/icons/home.svg",
-  },
-  {
     label: "Image Restore",
     route: "/user/transformations/add/restore",
     icon: "/assets/icons/image.svg",
@@ -44,12 +39,12 @@ export const navLinks = [
 
   {
     label: "Profile",
-    route: "/credits",
+    route: "/user/profile",
     icon: "/assets/icons/profile.svg",
   },
   {
     label: "Buy Credits",
-    route: "/credits",
+    route: "/user/credits",
     icon: "/assets/icons/bag.svg",
   },
 ];
@@ -192,7 +187,6 @@ export const transformationTypes = {
     },
     icon: "filter.svg",
   },
-
 };
 
 export const aspectRatioOptions = {

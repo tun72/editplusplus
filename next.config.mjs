@@ -22,6 +22,14 @@ const nextConfig = {
         hostname: "cdn.sanity.io",
         port: "",
       },
+
+      {
+        protocol: "https",
+        hostname: "cdn.picsart.io",
+        port: "",
+      },
+
+      
     ],
   },
 };

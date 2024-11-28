@@ -1,18 +1,8 @@
 "use client";
 import { BlogCard } from "@/components/shared/BlogCard";
 
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
 import { createClient } from "@sanity/client";
 import { useEffect, useState } from "react";
-
-const categories = [
-  "All",
-  "Product Updates",
-  "Resources",
-  "Tips & Ideas",
-  "Image Editing",
-];
 
 const client = createClient({
   projectId: "o7axs3xt", // Replace with your Sanity project ID
@@ -82,7 +72,7 @@ export default function BlogPage() {
     <div className="container mx-auto px-4 py-12 max-w-6xl">
       <h1 className="text-4xl font-bold text-center mb-12">Blog</h1>
 
-      <Tabs defaultValue="All" className="mb-12">
+      {/* <Tabs defaultValue="All" className="mb-12">
         <TabsList className="w-full justify-start overflow-auto">
           {categories.map((category) => (
             <TabsTrigger
@@ -94,7 +84,7 @@ export default function BlogPage() {
             </TabsTrigger>
           ))}
         </TabsList>
-      </Tabs>
+      </Tabs> */}
 
       {blogPosts ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">

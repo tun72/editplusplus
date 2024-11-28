@@ -13,15 +13,7 @@ import {
 } from "@/components/ui/select";
 
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
   aspectRatioOptions,
@@ -365,11 +357,9 @@ const TransformationForm = ({
                 window.location.reload();
 
                 // currently this for short I will deal with this later
-                
+
                 // setNewTransformation(null)
                 // setImage(null)
-                
-
               }}
             >
               restart

@@ -75,26 +75,31 @@
 //   ],
 // };
 
-import createMiddleware from "next-intl/middleware";
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
-import { clerkMiddleware } from "@clerk/nextjs/server";
+const isTenantRoute = createRouteMatcher(['/organization-selector(.*)', '/orgid/(.*)'])
 
-const intlMiddleware = createMiddleware({
-  locales: ["en", "el"],
+const isTenantAdminRoute = createRouteMatcher(['/orgId/(.*)/memberships', '/orgId/(.*)/domain'])
 
-  defaultLocale: "en",
-});
-
-export default clerkMiddleware({
-  beforeAuth: (req) => {
-    // Execute next-intl middleware before Clerk's auth middleware
-    return intlMiddleware(req);
-  },
-
-  // Ensure that locale specific sign-in pages are public
-  publicRoutes: ["/", "/:locale/sign-in"],
-});
+export default clerkMiddleware(async (auth, req) => {
+  // Restrict admin routes to users with specific permissions
+  if (isTenantAdminRoute(req)) {
+    await auth.protect((has) => {
+      return (
+        has({ permission: 'org:sys_memberships:manage' }) ||
+        has({ permission: 'org:sys_domains_manage' })
+      )
+    })
+  }
+  // Restrict organization routes to signed in users
+  if (isTenantRoute(req)) await auth.protect()
+})
 
 export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
-};
+  matcher: [
+    // Skip Next.js internals and all static files, unless found in search params
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    // Always run for API routes
+    '/(api|trpc)(.*)',
+  ],
+}

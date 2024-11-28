@@ -13,8 +13,13 @@ const client = createClient({
   useCdn: true, // Enables cached data for faster loading
 });
 
-function Blog({ params }: { params: any }) {
-  const [blogDetail, setBlogDetail] = useState<any>(null);
+function Blog({ params }: { params: { slug: string } }) {
+  const [blogDetail, setBlogDetail] = useState<{
+    body: any;
+    image: string | undefined;
+    title: string;
+    category: string;
+  } | null>(null);
   const { slug } = params;
   useEffect(() => {
     async function fetchDetail() {

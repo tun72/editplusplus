@@ -17,6 +17,11 @@ import { getCldImageUrl } from "next-cloudinary";
 
 import { InsufficientCreditsModal } from "./InsufficientCreditsModal";
 import axios from "axios";
+import { Form } from "@/components/ui/form";
+import { useToast } from "@/hooks/use-toast";
+import ImageResult from "./ImageResult";
+import { addImage, updateImage } from "@/lib/actions/image.actions";
+import { useRouter } from "next/navigation";
 
 export const formSchema = z.object({
   title: z.string(),
@@ -24,7 +29,8 @@ export const formSchema = z.object({
   color: z.string().optional(),
   prompt: z.string().optional(),
   publicId: z.string(),
-  transformId: z.string(),
+
+  transformId: z.string().optional(),
 });
 
 const StyleTransferForm = ({
@@ -39,13 +45,17 @@ const StyleTransferForm = ({
   const [image, setImage] = useState(data);
   const [tranImage, setTranImage] = useState(data);
 
+  const [enhanceimage, setEnhanceImage] = useState<enhanceImage | null>(null);
+
   const [newTransformation, setNewTransformation] =
     useState<Transformations | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isTransforming, setIsTransforming] = useState(false);
   // const [transformationConfig, setTransformationConfig] = useState(config);
   // const [isPending, startTransition] = useTransition();
-  // const router = useRouter();
+  const router = useRouter();
+
+  const { toast } = useToast();
 
   const initialValues =
     data && action === "Update"
@@ -72,86 +82,73 @@ const StyleTransferForm = ({
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("submit");
-
     // console.log(image, tranImage);
-    const url = getCldImageUrl({
-      width: image?.width,
-      height: image?.height,
-      src: image?.publicId,
-    });
 
-    const response = await axios.post("/api/picpurify", {
-      image_url: url, // Use `image_url` to match the server-side handler
-    });
+    if (data || enhanceimage) {
+      const transformationUrl = enhanceimage?.url || "url";
 
-    console.log(response);
+      const imageData = {
+        title: values.title,
+        publicId: image?.publicId,
+        transformationType: type,
+        config: {},
+        width: enhanceimage?.width || 1000,
+        height: enhanceimage?.height || 1000,
+        secureURL: enhanceimage?.url || image?.secureURL,
+        transformationURL: transformationUrl,
+        aspectRatio: values.aspectRatio,
+        prompt: values.prompt,
+        color: values.color,
+        transformImageUrl: tranImage?.publicId,
+        orginalImageUrl: image?.publicId
+      };
 
-    setIsSubmitting(true);
+      // console.log(imageData);
 
-    // console.log(data);
+      if (action === "Add") {
+        try {
+          const newImage = await addImage({
+            image: imageData,
+            userId,
+            path: "/",
+          });
 
-    // if (data || image) {
-    //   const transformationUrl = getCldImageUrl({
-    //     width: image?.width,
-    //     height: image?.height,
-    //     src: image?.publicId,
-    //     ...transformationConfig,
-    //   });
+          if (newImage) {
+            form.reset();
+            setImage(data);
 
-    //   const imageData = {
-    //     title: values.title,
-    //     publicId: image?.publicId,
-    //     transformationType: type,
-    //     width: image?.width,
-    //     height: image?.height,
-    //     config: transformationConfig,
-    //     secureURL: image?.secureURL,
-    //     transformationURL: transformationUrl,
-    //     aspectRatio: values.aspectRatio,
-    //     prompt: values.prompt,
-    //     color: values.color,
-    //   };
+            toast({
+              title: "Success",
+              description: "Successfully Save",
+              duration: 5000,
+              className: "success-toast",
+            });
+            router.push(`/user/transformations/${newImage._id}`);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
 
-    //   console.log(imageData);
+      if (action === "Update") {
+        try {
+          const updatedImage = await updateImage({
+            image: {
+              ...imageData,
+              _id: data._id,
+            },
+            userId,
+            path: `/transformations/${data._id}`,
+          });
 
-    //   // if (action === "Add") {
-    //   //   try {
-    //   //     const newImage = await addImage({
-    //   //       image: imageData,
-    //   //       userId,
-    //   //       path: "/",
-    //   //     });
-
-    //   //     if (newImage) {
-    //   //       form.reset();
-    //   //       setImage(data);
-    //   //       router.push(`/transformations/${newImage._id}`);
-    //   //     }
-    //   //   } catch (error) {
-    //   //     console.log(error);
-    //   //   }
-    //   // }
-
-    //   // if (action === "Update") {
-    //   //   try {
-    //   //     const updatedImage = await updateImage({
-    //   //       image: {
-    //   //         ...imageData,
-    //   //         _id: data._id,
-    //   //       },
-    //   //       userId,
-    //   //       path: `/transformations/${data._id}`,
-    //   //     });
-
-    //   //     if (updatedImage) {
-    //   //       router.push(`/transformations/${updatedImage._id}`);
-    //   //     }
-    //   //   } catch (error) {
-    //   //     console.log(error);
-    //   //   }
-    //   // }
-    // }
+          if (updatedImage) {
+            router.push(`/transformations/${updatedImage._id}`);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
 
     setIsSubmitting(false);
   }
@@ -162,36 +159,40 @@ const StyleTransferForm = ({
     console.log(image);
     console.log(tranImage);
 
-    const url = getCldImageUrl({
-      width: image?.width,
-      height: image?.height,
-      src: image?.publicId,
-    });
-
     try {
       setIsTransforming(true);
       console.log("hit");
 
-      const response = await axios.post("/api/transfer", {
-        image: image?.secureURL, // Use `image_url` to match the server-side handler
-        style: tranImage?.secureURL,
+      const url = getCldImageUrl({
+        width: image?.width,
+        height: image?.height,
+        src: image?.publicId,
       });
-      console.log(response);
-      // setEnhanceImage({
-      //   url: response.data.url,
-      //   width: image.width,
-      //   height: image.height,
-      // });
-    } catch (err: any) {
-      console.log(err);
 
+      const tranUrl = getCldImageUrl({
+        width: tranImage?.width,
+        height: tranImage?.height,
+        src: tranImage?.publicId,
+      });
+
+      const response = await axios.post("/api/transfer", {
+        url, // Use `image_url` to match the server-side handler
+        tranUrl,
+      });
+
+      setEnhanceImage({
+        url: response.data.url,
+        width: image.width,
+        height: image.height,
+      });
+    } catch (err: any) {
       // toast(err.message);
-      // toast({
-      //   title: "Error!",
-      //   description: err.message,
-      //   duration: 5000,
-      //   className: "error-toast",
-      // });
+      toast({
+        title: "Error!",
+        description: err.message,
+        duration: 5000,
+        className: "error-toast",
+      });
     } finally {
       setIsTransforming(false);
     }
@@ -265,6 +266,7 @@ const StyleTransferForm = ({
 
           {/* <image /> */}
 
+          <ImageResult image={enhanceimage} isTransforming={isTransforming} />
           {/* <TransformedImage
             image={image}
             type={type}

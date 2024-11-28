@@ -340,7 +340,7 @@ export default function Home() {
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-3xl font-bold text-gray-800">Blog</h2>
               <Link
-                href="#"
+                href="/blog"
                 className="text-gray-800 hover:text-gray-600 flex items-center gap-2"
               >
                 See more articles

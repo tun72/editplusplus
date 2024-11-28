@@ -22,7 +22,7 @@ const Sidebar = () => {
         <nav className="h-full flex-col justify-between md:flex md:gap-4">
           <SignedIn>
             <ul className="hidden w-full flex-col items-start gap-2 md:flex">
-              {navLinks.slice(0, 8).map((link) => {
+              {navLinks.slice(0, 7).map((link) => {
                 const isActive = link.route === pathname;
 
                 return (
@@ -51,7 +51,7 @@ const Sidebar = () => {
             </ul>
 
             <ul className="hidden w-full flex-col items-start gap-2 md:flex">
-              {navLinks.slice(8).map((link) => {
+              {navLinks.slice(7).map((link) => {
                 const isActive = link.route === pathname;
 
                 return (
@@ -114,7 +114,7 @@ const Sidebar = () => {
           </SignedIn>
 
           <SignedOut>
-            <Button asChild className="button bg-yellow-gradient bg-cover">
+            <Button asChild className="button bg-yellow-500 bg-cover">
               <Link href="/sign-in">Login</Link>
             </Button>
           </SignedOut>
