@@ -20,6 +20,7 @@ function Blog({ params }: { params: { slug: string } }) {
     image: string | undefined;
     title: string;
     category: string;
+    date: string | undefined
   } | null>(null);
   const { slug } = params;
   useEffect(() => {
