@@ -1,6 +1,7 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
-import { WebhookEvent } from "@clerk/nextjs/server";
+import { clerkClient, WebhookEvent } from "@clerk/nextjs/server";
+import { createUser } from "@/lib/actions/user.actions";
 
 export async function POST(req: Request) {
   const SIGNING_SECRET = process.env.SIGNING_SECRET;
@@ -53,7 +54,30 @@ export async function POST(req: Request) {
   const eventType = evt.type;
 
   if (eventType === "user.created") {
-    const { id, username, email_addresses } = evt.data;
+    const { id, username, email_addresses, first_name, last_name, image_url } =
+      evt.data;
+
+    const user = {
+      clerkId: id,
+      email: email_addresses[0].email_address,
+      username: username!,
+      firstName: first_name!,
+      lastName: last_name!,
+      photo: image_url,
+    };
+
+    const newUser = await createUser(user);
+
+    // Set public metadata
+    if (newUser) {
+      const client = await clerkClient();
+      client.users.updateUserMetadata(id, {
+        publicMetadata: {
+          userId: newUser._id,
+        },
+      });
+    }
+
     console.log(
       "Our user details",
       id,
@@ -67,6 +91,15 @@ export async function POST(req: Request) {
   if (eventType === "user.deleted") {
     const { id } = evt.data;
     console.log("Our deleted user details", id);
+
+    // const user = {
+    //   firstName: first_name,
+    //   lastName: last_name,
+    //   username: username!,
+    //   photo: image_url,
+    // };
+
+    // const updatedUser = await updateUser(id, user);
 
     //call server action to delete user from database
   }

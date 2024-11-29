@@ -24,7 +24,7 @@ export const Search = () => {
         router.push(newUrl, { scroll: false });
       } else {
         const newUrl = removeKeysFromQuery({
-          searchParams: searchParams.toString(),
+          searchParams: searchParams?.toString() || "",
           keysToRemove: ["query"],
         });
 
