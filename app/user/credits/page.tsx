@@ -7,15 +7,15 @@ import { Button } from "@/components/ui/button";
 import { plans } from "@/constants";
 import { getUserById } from "@/lib/actions/user.actions";
 import Checkout from "@/components/shared/Checkout";
-import { currentUser } from "@clerk/nextjs/server";
+import { auth, } from "@clerk/nextjs/server";
 
 const Credits = async () => {
-  // const { userId } = auth();
-  const userId = currentUser();
+  const { userId } =await auth();
+  // const userId = currentUser();
 
   if (!userId) redirect("/sign-in");
 
-  const user = await getUserById("67348dabb046a35acf7171ac");
+  const user = await getUserById(userId)
 
   return (
     <>

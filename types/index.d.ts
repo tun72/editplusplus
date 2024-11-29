@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-unused-vars */
 
 // ====== USER PARAMS
@@ -69,6 +70,7 @@ declare type Transformations = {
     multiple?: boolean;
   };
   removeBackground?: boolean;
+  art?: string;
 };
 
 // ====== TRANSACTION PARAMS
@@ -95,7 +97,8 @@ declare type TransformationTypeKey =
   | "recolor"
   | "removeBackground"
   | "restyle"
-  | "enhance";
+  | "enhance"
+  | "dynamic";
 
 // ====== URL QUERY PARAMS
 declare type FormUrlQueryParams = {

@@ -20,6 +20,7 @@ export const navLinks = [
     route: "/user/transformations/add/enhance",
     icon: "/assets/icons/image.svg",
   },
+
   {
     label: "Background Remove",
     route: "/user/transformations/add/removeBackground",
@@ -34,6 +35,11 @@ export const navLinks = [
   {
     label: "Style Transfer",
     route: "/user/transformations/add/restyle",
+    icon: "/assets/icons/image.svg",
+  },
+  {
+    label: "Dynamic Light",
+    route: "/user/transformations/add/dynamic",
     icon: "/assets/icons/image.svg",
   },
 
@@ -187,6 +193,17 @@ export const transformationTypes = {
     },
     icon: "filter.svg",
   },
+
+  dynamic: {
+    type: "dynamic",
+    title: "Dynamic Light",
+    subTitle: "Identify and dynamic light transform the image",
+    config: {
+      art: "",
+      // recolor: { prompt: "", to: "", multiple: true },
+    },
+    icon: "filter.svg",
+  },
 };
 
 export const aspectRatioOptions = {
@@ -209,6 +226,14 @@ export const aspectRatioOptions = {
     height: 1778,
   },
 };
+
+export const artStyles = [
+  'al_dente', 'athena', 'audrey', 'aurora', 'daguerre', 'eucalyptus', 
+  'fes', 'frost', 'hairspray', 'hokusai', 'incognito', 'linen', 
+  'peacock', 'primavera', 'quartz', 'red_rock', 'refresh', 'sizzle', 
+  'sonnet', 'ukulele', 'zorro'
+]
+
 
 export const defaultValues = {
   title: "",

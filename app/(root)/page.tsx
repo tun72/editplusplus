@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // import ImageComparisonSlider from "@/components/shared/image-comparitson-slider";
 "use client";
 import MaxWidthWrapper from "@/components/shared/MaxWidthWrapper";
@@ -89,8 +90,8 @@ export default function Home() {
     company: {
       title: "Company",
       links: [
-        { name: "Blog", href: "#" },
-        { name: "Affiliate Program", href: "#" },
+        { name: "Blog", href: "/blog" },
+
         { name: "Create automatic designs", href: "#" },
         { name: "Video Background Removal", href: "#" },
         { name: "Careers", href: "#" },
@@ -211,7 +212,7 @@ export default function Home() {
 
             {/* Navigation */}
             <nav className="flex justify-center gap-2 md:gap-4 mb-8 flex-wrap">
-              {categories.map((category) => (
+              {/* {categories.map((category) => (
                 <Button
                   key={category.name}
                   variant={category.active ? "default" : "ghost"}
@@ -223,7 +224,7 @@ export default function Home() {
                 >
                   {category.name}
                 </Button>
-              ))}
+              ))} */}
             </nav>
 
             {/* Image Showcase */}
@@ -249,13 +250,13 @@ export default function Home() {
 
             {/* Call to Action */}
             <div className="text-center">
-              <Button
-                variant="link"
+              <Link
+                href={"/user"}
                 className="text-blue-600 text-lg font-medium hover:text-blue-700"
               >
                 See more samples
                 <MoveRight className="ml-2 h-4 w-4" />
-              </Button>
+              </Link>
             </div>
           </div>
           {/* <ImageComparisonSlider
@@ -278,8 +279,8 @@ export default function Home() {
 
               <div className="text-typo text-base">
                 <p className="text-base mb-4 leading-tight">
-                  Thanks to  clever AI, you can slash editing time -
-                  and have more fun!
+                  Thanks to clever AI, you can slash editing time - and have
+                  more fun!
                 </p>
                 <p className="text-base">
                   No matter if you want to make a background transparent (PNG),
@@ -569,7 +570,7 @@ export default function Home() {
           <div className="border-t border-slate-600 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               {/* Language selector */}
-              <div className="flex items-center">
+              {/* <div className="flex items-center">
                 <Button variant="ghost" className="text-slate-200">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -589,7 +590,7 @@ export default function Home() {
                   </svg>
                   English
                 </Button>
-              </div>
+              </div> */}
 
               {/* Social links */}
               <div className="flex gap-4">

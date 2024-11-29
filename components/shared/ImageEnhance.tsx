@@ -89,6 +89,7 @@ const ImageEnhance = ({
         aspectRatio: values.aspectRatio,
         prompt: values.prompt,
         color: values.color,
+        orginalImageUrl: image?.secureURL,
       };
 
       // console.log(imageData);

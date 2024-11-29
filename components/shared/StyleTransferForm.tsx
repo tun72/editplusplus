@@ -53,6 +53,9 @@ const StyleTransferForm = ({
   const [isTransforming, setIsTransforming] = useState(false);
   // const [transformationConfig, setTransformationConfig] = useState(config);
   // const [isPending, startTransition] = useTransition();
+
+  const [credit, setCredit] = useState(creditBalance || 0);
+
   const router = useRouter();
 
   const { toast } = useToast();
@@ -99,8 +102,8 @@ const StyleTransferForm = ({
         aspectRatio: values.aspectRatio,
         prompt: values.prompt,
         color: values.color,
-        transformImageUrl: tranImage?.publicId,
-        orginalImageUrl: image?.publicId,
+        transformImageUrl: tranImage?.secureURL,
+        orginalImageUrl: image?.secureURL,
       };
 
       // console.log(imageData);
@@ -154,10 +157,10 @@ const StyleTransferForm = ({
   }
 
   const onTransformHandler = async () => {
+    if (!creditBalance) return;
     setIsTransforming(true);
 
-    console.log(image);
-    console.log(tranImage);
+    setCredit((prev) => prev - 1);
 
     try {
       setIsTransforming(true);
@@ -217,7 +220,7 @@ const StyleTransferForm = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {creditBalance < Math.abs(creditFee) && <InsufficientCreditsModal />}
+        {credit < Math.abs(creditFee) && <InsufficientCreditsModal />}
         <CustomField
           control={form.control}
           name="title"

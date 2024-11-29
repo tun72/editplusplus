@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
+  artStyles,
   aspectRatioOptions,
   creditFee,
   defaultValues,
@@ -33,6 +34,7 @@ import { getCldImageUrl } from "next-cloudinary";
 import { addImage, updateImage } from "@/lib/actions/image.actions";
 import { useRouter } from "next/navigation";
 import { InsufficientCreditsModal } from "./InsufficientCreditsModal";
+import { useToast } from "@/hooks/use-toast";
 
 export const formSchema = z.object({
   title: z.string(),
@@ -41,6 +43,7 @@ export const formSchema = z.object({
   prompt: z.string().optional(),
   publicId: z.string(),
   transformId: z.string().optional(),
+  art: z.string().optional(),
 });
 
 const TransformationForm = ({
@@ -59,7 +62,9 @@ const TransformationForm = ({
   const [isTransforming, setIsTransforming] = useState(false);
   const [transformationConfig, setTransformationConfig] = useState(config);
   const [isPending, startTransition] = useTransition();
+  const [credit, setCredit] = useState(creditBalance || 0);
   const router = useRouter();
+  const { toast } = useToast();
 
   const initialValues =
     data && action === "Update"
@@ -115,6 +120,12 @@ const TransformationForm = ({
           if (newImage) {
             form.reset();
             setImage(data);
+            toast({
+              title: "Success",
+              description: "Successfully Save",
+              duration: 5000,
+              className: "success-toast",
+            });
             router.push(`/user/transformations/${newImage._id}`);
           }
         } catch (error) {
@@ -163,6 +174,20 @@ const TransformationForm = ({
     return onChangeField(value);
   };
 
+  const onDynamicHandler = (
+    fieldName: string,
+    value: string,
+    type: string,
+    onChangeField: (value: string) => void
+  ) => {
+    setNewTransformation((prevState: any) => ({
+      ...prevState,
+      [fieldName]: value,
+    }));
+
+    return onChangeField(value);
+  };
+
   const onInputChangeHandler = (
     fieldName: string,
     value: string,
@@ -184,8 +209,10 @@ const TransformationForm = ({
   };
 
   const onTransformHandler = async () => {
+    if (!creditBalance) return;
     setIsTransforming(true);
 
+    setCredit((prev) => prev - 1);
     setTransformationConfig(
       deepMergeObjects(newTransformation, transformationConfig)
     );
@@ -198,7 +225,10 @@ const TransformationForm = ({
   };
 
   useEffect(() => {
-    if (image && (type === "restore" || type === "removeBackground")) {
+    if (
+      image &&
+      (type === "restore" || type === "removeBackground" || type === "dynamic")
+    ) {
       setNewTransformation(transformationType.config);
     }
   }, [image, transformationType.config, type]);
@@ -206,7 +236,7 @@ const TransformationForm = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {creditBalance < Math.abs(creditFee) && <InsufficientCreditsModal />}
+        {credit < Math.abs(creditFee) && <InsufficientCreditsModal />}
         <CustomField
           control={form.control}
           name="title"
@@ -244,6 +274,41 @@ const TransformationForm = ({
                       className="py-3 cursor-pointer hover:bg-purple-100"
                     >
                       {aspectRatioOptions[key as AspectRatioKey].label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+          />
+        )}
+
+        {type === "dynamic" && (
+          <CustomField
+            control={form.control}
+            name="art"
+            formLabel="Dynamic Light Filter"
+            className="w-full"
+            render={({ field }) => (
+              <Select
+                onValueChange={
+                  (value) => {
+                    onDynamicHandler("art", value, type, field.onChange);
+                  }
+                  //
+                }
+                value={field.value}
+              >
+                <SelectTrigger className="w-full border-2 border-purple-200/20 shadow-sm shadow-purple-200/15 rounded-[16px] h-[50px] md:h-[54px] text-dark-600 p-16-semibold disabled:opacity-100 placeholder:text-dark-400/50 px-4 py-3 focus:ring-offset-0 focus-visible:ring-transparent focus:ring-transparent focus-visible:ring-0 focus-visible:outline-none">
+                  <SelectValue placeholder="Select Dynamic Light" />
+                </SelectTrigger>
+                <SelectContent>
+                  {artStyles.map((key) => (
+                    <SelectItem
+                      key={key}
+                      value={key}
+                      className="py-3 cursor-pointer hover:bg-purple-100"
+                    >
+                      {key}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -333,7 +398,9 @@ const TransformationForm = ({
             type="button"
             className=" bg-purple-600 hover:bg-purple-500"
             // className="submit-button capitalize"
-            disabled={isTransforming || newTransformation === null}
+            disabled={
+              isTransforming || newTransformation === null || credit === 0
+            }
             onClick={onTransformHandler}
           >
             {isTransforming ? "Transforming..." : "Apply Transformation"}

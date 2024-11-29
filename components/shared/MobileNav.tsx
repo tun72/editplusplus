@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { navLinks } from "@/constants"
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
-import Image from "next/image"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { Button } from "../ui/button"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { navLinks } from "@/constants";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Button } from "../ui/button";
 
 const MobileNav = () => {
   const pathname = usePathname();
@@ -14,12 +14,7 @@ const MobileNav = () => {
   return (
     <header className="flex-between fixed h-16 w-full border-b-4 border-purple-100 bg-white p-5 lg:hidden">
       <Link href="/" className="flex items-center gap-2 md:py-2">
-        <Image
-          src="/assets/images/logo-text.svg"
-          alt="logo"
-          width={180}
-          height={28}
-        />
+        <Image src={"/logos/11.png"} alt="logo" width={100} height={100} />
       </Link>
 
       <nav className="flex gap-2">
@@ -28,7 +23,7 @@ const MobileNav = () => {
 
           <Sheet>
             <SheetTrigger>
-              <Image 
+              <Image
                 src="/assets/icons/menu.svg"
                 alt="menu"
                 width={32}
@@ -38,48 +33,53 @@ const MobileNav = () => {
             </SheetTrigger>
             <SheetContent>
               <>
-                <Image 
-                  src="/assets/images/logo-text.svg"
+                {/* <Image
+                  src={"/logos/11.png"}
                   alt="logo"
-                  width={152}
-                  height={23}
-                />
+                  width={100}
+                  height={40}
+                /> */}
 
-              <ul className="mt-8 flex w-full flex-col items-start gap-5">
-              {navLinks.map((link) => {
-                const isActive = link.route === pathname
+                <ul className="mt-8 flex w-full flex-col items-start gap-5">
+                  {navLinks.map((link) => {
+                    const isActive = link.route === pathname;
 
-                return (
-                  <li 
-                    className={`${isActive && 'gradient-text'} p-18 flex whitespace-nowrap text-dark-700`}
-                    key={link.route}
-                    >
-                    <Link className="p-16-semibold flex size-full gap-4 p-4 cursor-pointer" href={link.route}>
-                      <Image 
-                        src={link.icon}
-                        alt="logo"
-                        width={24}
-                        height={24}
-                      />
-                      {link.label}
-                    </Link>
-                  </li>
-                )
-              })}
-              </ul>
+                    return (
+                      <li
+                        className={`${
+                          isActive && "gradient-text"
+                        } p-18 flex whitespace-nowrap text-dark-700`}
+                        key={link.route}
+                      >
+                        <Link
+                          className="p-16-semibold flex size-full gap-4 p-4 cursor-pointer"
+                          href={link.route}
+                        >
+                          <Image
+                            src={link.icon}
+                            alt="logo"
+                            width={24}
+                            height={24}
+                          />
+                          {link.label}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
               </>
             </SheetContent>
           </Sheet>
         </SignedIn>
 
         <SignedOut>
-            <Button asChild className="button bg-purple-gradient bg-cover">
-              <Link href="/sign-in">Login</Link>
-            </Button>
-          </SignedOut>
+          <Button asChild className="button bg-purple-gradient bg-cover">
+            <Link href="/sign-in">Login</Link>
+          </Button>
+        </SignedOut>
       </nav>
     </header>
-  )
-}
+  );
+};
 
-export default MobileNav
+export default MobileNav;

@@ -33,7 +33,7 @@ export async function POST(req: Request) {
   // Request headers
   const headers = {
     "Content-Type": "application/json",
-    "X-API-Key": "d8f760b0-acdf-11ef-bf44-39e16bc38d8c", // Replace 'API_KEY' with your actual API key
+    "X-API-Key": "993b3560-ae91-11ef-bf44-39e16bc38d8c", // Replace 'API_KEY' with your actual API key
   };
   // Request data
   const requestData = {

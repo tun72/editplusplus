@@ -68,14 +68,36 @@ const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
             <Image
               width={getImageSize(image.transformationType, image, "width")}
               height={getImageSize(image.transformationType, image, "height")}
-              src={image.secureURL}
+              src={
+                ["restyle", "enhance"].includes(image.transformationType)
+                  ? image.orginalImageUrl
+                  : image.secureURL
+              }
               alt="image"
               className="transformation-original_image"
             />
+
+            {image.transformationType === "restyle" && (
+              <>
+                <h3 className="h3-bold text-dark-600">Transform</h3>
+                <Image
+                  width={getImageSize(image.transformationType, image, "width")}
+                  height={getImageSize(
+                    image.transformationType,
+                    image,
+                    "height"
+                  )}
+                  src={image.transformImageUrl}
+                  alt="image"
+                  className="transformation-original_image"
+                />
+              </>
+            )}
           </div>
 
           {/* TRANSFORMED IMAGE */}
-          {image.transformationType === "enhance" ? (
+          {image.transformationType === "enhance" ||
+          image.transformationType === "restyle" ? (
             <ImageResult
               image={{
                 url: image.secureURL,

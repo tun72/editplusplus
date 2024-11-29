@@ -7,7 +7,7 @@ import { Collection } from "@/components/shared/Collection";
 import Header from "@/components/shared/Header";
 import { getUserImages } from "@/lib/actions/image.actions";
 import { getUserById } from "@/lib/actions/user.actions";
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 
 const Profile = async ({ searchParams }: SearchParamProps) => {
   const page = Number(searchParams?.page) || 1;
@@ -15,13 +15,13 @@ const Profile = async ({ searchParams }: SearchParamProps) => {
 
   if (!userId) redirect("/sign-in");
 
-  let user = await getUserById(userId || "67348dabb046a35acf7171ac");
+  console.log(userId);
 
-  console.log(user);
+  let user = await getUserById(userId || "67348dabb046a35acf7171ac");
 
   const images = await getUserImages({
     page,
-    userId: "67348dabb046a35acf7171ac",
+    userId: user._id,
   });
 
   return (
