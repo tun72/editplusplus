@@ -6,7 +6,7 @@
 import { Badge } from "@/components/ui/badge";
 import { createClient } from "@sanity/client";
 
-import type { PortableTextSpan } from "sanity";
+// import type { PortableTextSpan } from "sanity";
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -233,34 +233,33 @@ function Blog({ params }: { params: { slug: string } }) {
   );
 }
 
-const slugify = (text: string) => {
-  return text
-    .toLowerCase()
-    .replace(/\s+/g, "-")
-    .replace(/[^\w-]+/g, "");
-};
+// const slugify = (text: string) => {
+//   return text
+//     .toLowerCase()
+//     .replace(/\s+/g, "-")
+//     .replace(/[^\w-]+/g, "");
+// };
 
-const extractTextFromPortableTextBlock = (
-  block: PortableTextBlock,
-): string => {
-  return block.children
-    .filter(
-      (child): child is PortableTextSpan =>
-        typeof child === "object" && "_type" in child && "text" in child,
-    )
-    .map((child) => child.text)
-    .join("");
-};
-
+// const extractTextFromPortableTextBlock = (
+//   block: PortableTextBlock,
+// ): string => {
+//   return block.children
+//     .filter(
+//       (child): child is PortableTextSpan =>
+//         typeof child === "object" && "_type" in child && "text" in child,
+//     )
+//     .map((child) => child.text)
+//     .join("");
+// };
 
 const createHeadingComponent =
   (Tag: "h2" | "h3") =>
   ({ children, value }: PortableTextComponentProps<PortableTextBlock>) => {
-    const text = extractTextFromPortableTextBlock(value);
-    const id = slugify(text)
+    const text = value;
+    const id = text;
 
     return (
-      <Tag id={id} className="group relative flex items-center">
+      <Tag className="group relative flex items-center">
         <Link href={`#${id}`} className="flex items-center">
           <span className="absolute left-0 -translate-x-full pr-2 opacity-0 transition-opacity group-hover:opacity-100">
             <LinkIcon className="size-4" />
