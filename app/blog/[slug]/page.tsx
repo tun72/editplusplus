@@ -6,6 +6,8 @@
 import { Badge } from "@/components/ui/badge";
 import { createClient } from "@sanity/client";
 
+import type { PortableTextSpan } from "sanity";
+
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import {
@@ -231,11 +233,31 @@ function Blog({ params }: { params: { slug: string } }) {
   );
 }
 
+const slugify = (text: string) => {
+  return text
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w-]+/g, "");
+};
+
+const extractTextFromPortableTextBlock = (
+  block: PortableTextBlock,
+): string => {
+  return block.children
+    .filter(
+      (child): child is PortableTextSpan =>
+        typeof child === "object" && "_type" in child && "text" in child,
+    )
+    .map((child) => child.text)
+    .join("");
+};
+
+
 const createHeadingComponent =
   (Tag: "h2" | "h3") =>
   ({ children, value }: PortableTextComponentProps<PortableTextBlock>) => {
-    const text = value;
-    const id = text;
+    const text = extractTextFromPortableTextBlock(value);
+    const id = slugify(text)
 
     return (
       <Tag id={id} className="group relative flex items-center">
