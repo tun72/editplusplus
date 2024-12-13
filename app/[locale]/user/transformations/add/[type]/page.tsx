@@ -55,7 +55,6 @@ const AddTransformationTypePage = async ({
       <Header title={transformation.title} subtitle={transformation.subTitle} />
 
       <section className="mt-10">{form}</section>
-      {/*  */}
     </>
   );
 };

@@ -26,8 +26,11 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 export default function Home() {
+  const t = useTranslations("HomePage");
+
   const categories = [
     { name: "People", active: true },
     { name: "Products", active: false },
@@ -125,20 +128,20 @@ export default function Home() {
           <div className="px-6 lg:px-0">
             <div className="relative mx-auto text-center  flex flex-col items-center  gap-5  justify-center">
               <h1 className="relative w-fit tracking-tight text-balance font-bold !leading-tight text-gray-900 text-5xl md:text-6xl lg:text-7xl">
-                Remove{" "}
-                <span className="bg-yellow-500 px-2 text-white">Custom</span>{" "}
-                <span className="bg-yellow-500 px-2 text-white">Image</span>{" "}
-                Background
+                {t("title")}{" "}
+                <span className="bg-yellow-500 px-2  text-white">
+                  {t("title1")}
+                </span>{" "}
+                <span className="bg-yellow-500 px-2 text-white  ">
+                  {t("title2")}
+                </span>{" "}
+                {t("title3")}
               </h1>
-              <p className="mt-8 text-lg  max-w-prose text-center text-balance ">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                <span className="font-semibold">one-of-one</span> p Cum, aut
-                accusantium minima rerum reprehenderit distinctio sit facilis ab
-                unde sunt. Neque similique inventore eius delectus modi et
-                exercitationem id fuga.
+              <p className="mt-6 text-lg  max-w-prose text-center text-balance ">
+                {t("about")}
               </p>
 
-              <ul className="mt-8 space-y-2 text-left font-medium flex flex-col items-center sm:items-start">
+              <ul className="mt-6 space-y-2 text-left font-medium flex flex-col items-center sm:items-start">
                 <div className="space-y-2">
                   <li className="flex gap-1.5 items-center text-left">
                     <Check className="h-5 w-5 shrink-0 text-yellow-500" />
@@ -155,12 +158,12 @@ export default function Home() {
                 </div>
               </ul>
 
-              <div className="w-full max-w-80 mt-8">
+              <div className="w-full max-w-80 mt-6">
                 <ShinyButton
                   href="/sign-up"
                   className="relative z-10 h-14 w-full text-base shadow-lg transition-shadow duration-300 hover:shadow-xl"
                 >
-                  Start For Free Today
+                 {t("button_sign_up_1")}
                 </ShinyButton>
               </div>
             </div>
@@ -207,7 +210,7 @@ export default function Home() {
           {/* Main Content */}
           <div className="relative">
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-8">
-              Stunning Quality
+              {t("subtitle1")}
             </h2>
 
             {/* Navigation */}
@@ -273,22 +276,12 @@ export default function Home() {
           <div className="grid gap-12 grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto">
             <div className="flex flex-col space-y-6 justify-center">
               <h2 className="font-display font-bold m-0 text-4xl leading-tight text-slate-700">
-                Remove backgrounds 100% automatically in 5 seconds with one
-                click
+                {t("subtitle2")}
               </h2>
 
               <div className="text-typo text-base">
-                <p className="text-base mb-4 leading-tight">
-                  Thanks to clever AI, you can slash editing time - and have
-                  more fun!
-                </p>
-                <p className="text-base">
-                  No matter if you want to make a background transparent (PNG),
-                  add a white background to a photo, extract or isolate the
-                  subject, or get the cutout of a photo - you can do all this
-                  and more with remove.bg, the AI background remover for
-                  professionals.
-                </p>
+                <p className="text-base mb-4 leading-tight">{t("feature1")}</p>
+                <p className="text-base">{t("feature2")}</p>
               </div>
             </div>
 
@@ -339,12 +332,12 @@ export default function Home() {
           <div className="container mx-auto px-4 relative">
             {/* Blog Header */}
             <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-800">Blog</h2>
+              <h2 className="text-3xl font-bold text-gray-800">{t("blog")}</h2>
               <Link
                 href="/blog"
                 className="text-gray-800 hover:text-gray-600 flex items-center gap-2"
               >
-                See more articles
+                {t("blog_link")}
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -369,13 +362,9 @@ export default function Home() {
             {/* Get Updates Section */}
             <div className="max-w-2xl mx-auto text-center">
               <h2 className="text-3xl font-bold text-gray-800 mb-4">
-                Get Updates
+                {t("update")}
               </h2>
-              <p className="text-gray-700 mb-6">
-                Sign up for our mailing list to receive news and updates about
-                editplusplus products and services. You can unsubscribe at any
-                time.
-              </p>
+              <p className="text-gray-700 mb-6">{t("blog_feature")}</p>
 
               <div className="flex gap-4 max-w-xl mx-auto mb-4">
                 <Input
@@ -384,15 +373,14 @@ export default function Home() {
                   className="bg-white"
                 />
                 <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8">
-                  Subscribe
+                  {t("subscribe")}
                 </Button>
               </div>
 
               <p className="text-sm text-gray-600">
-                To learn more about how editplusplus handles your personal data,
-                check our{" "}
+                {t("subscribe_feature")}{" "}
                 <Link href="#" className="text-blue-600 hover:underline">
-                  Privacy Policy
+                  {t("privacy")}
                 </Link>
               </p>
             </div>
@@ -406,10 +394,10 @@ export default function Home() {
         <MaxWidthWrapper className="flex flex-col items-center gap-16 sm:gap-20">
           <div>
             <h2 className="text-center text-base/7 font-semibold text-brand-600">
-              Real-World Experiences
+              {t("subtitle3")}
             </h2>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-8">
-              What our customers say
+            <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold text-center mb-8">
+              {t("subtitle4")}
             </h2>
           </div>
 
@@ -424,9 +412,7 @@ export default function Home() {
               </div>
 
               <p className=" text-base sm:text-lg lg:text-lg/8 font-medium tracking-tight text-brand-950 text-center lg:text-left text-pretty">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Perspiciatis mollitia quae, accusantium veritatis vero placeat
-                dolorum doloremque maiores quo? Deserunt, delectus.
+                {t("review1")}
               </p>
 
               <div className="flex flex-col justify-center lg:justify-start sm:flex-row items-center sm:items-start gap-4 mt-2">
@@ -456,9 +442,7 @@ export default function Home() {
               </div>
 
               <p className=" text-base sm:text-lg lg:text-lg/8 font-medium tracking-tight text-brand-950 text-center lg:text-left text-pretty">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Perspiciatis mollitia quae, accusantium veritatis vero placeat
-                dolorum doloremque maiores quo? Deserunt, delectus.
+                {t("review2")}
               </p>
               <div className="flex flex-col justify-center lg:justify-start sm:flex-row items-center sm:items-start gap-4 mt-2">
                 <Image
@@ -482,7 +466,7 @@ export default function Home() {
             href="/sign-up"
             className="relative z-10 h-14 max-w-xs text-base shadow-lg transition-shadow duration-300 hover:shadow-xl"
           >
-            Sign up for free
+            {t("button_sign_up")}
           </ShinyButton>
         </MaxWidthWrapper>
       </section>
@@ -627,30 +611,4 @@ export default function Home() {
       </footer>
     </div>
   );
-}
-
-// <div className="absolute w-28 left-0 -top-20 hidden lg:block">
-//                 {/* i forgot this div right here in the video, it's purely visual gradient and looks nice */}
-//                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t via-slate-50/50 from-slate-50 h-28" />
-//                 {/* <img src="/snake-1.png" className="w-full" /> */}
-//               </div>
-
-// <div className="aspect-[16/9]">
-{
-  /* <Image
-src="/assets/images/free-images.jpg"
-alt="Smiling toddler in light blue patterned outfit"
-fill
-className="object-cover"
-priority
-/>
-</div>
-<Button
-variant="outline"
-size="icon"
-className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm hover:bg-white/90 rounded-full w-12 h-12"
->
-<MoveRight className="h-6 w-6" />
-<span className="sr-only">Next image</span>
-</Button> */
 }
