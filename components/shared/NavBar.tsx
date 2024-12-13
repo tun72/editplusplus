@@ -3,14 +3,17 @@ import MaxWidthWrapper from "./MaxWidthWrapper";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import { auth } from "@clerk/nextjs/server";
+// import { auth } from "@clerk/nextjs/server";
 
 import { SignOutButton } from "@clerk/nextjs";
+
 
 const NavBar = async () => {
   // const user = await currentUser();
   // console.log(user);
-  const { userId } = await auth();
+  // const { userId } = await auth();
+
+  const userId = false;
 
   // console.log(userId);
 
