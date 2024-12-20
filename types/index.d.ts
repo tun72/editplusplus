@@ -11,6 +11,8 @@ declare type CreateUserParams = {
   photo: string;
 };
 
+
+
 declare type UpdateUserParams = {
   firstName: string;
   lastName: string;
@@ -152,3 +154,7 @@ declare type enhanceImage = {
   width?: number;
   height?: number;
 };
+
+
+
+//================ CUPON PARAMS

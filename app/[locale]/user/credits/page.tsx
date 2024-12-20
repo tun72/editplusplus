@@ -5,17 +5,22 @@ import { redirect } from "next/navigation";
 import Header from "@/components/shared/Header";
 import { Button } from "@/components/ui/button";
 import { plans } from "@/constants";
-import { getUserById } from "@/lib/actions/user.actions";
+import { getUserByEmail  } from "@/lib/actions/user.actions";
 import Checkout from "@/components/shared/Checkout";
-import { auth, } from "@clerk/nextjs/server";
+import { auth } from "@/lib/auth/auth";
+// import { auth, } from "@clerk/nextjs/server";
 
 const Credits = async () => {
-  const { userId } =await auth();
+  // const { userId } =await auth();
   // const userId = currentUser();
 
-  if (!userId) redirect("/sign-in");
+  const user_session = await auth();
+  if (!user_session?.user?.email) redirect("/sign-in");
 
-  const user = await getUserById(userId)
+  const user = await getUserByEmail(user_session.user?.email);
+
+  console.log(user);
+  
 
   return (
     <>
@@ -57,21 +62,20 @@ const Credits = async () => {
                 ))}
               </ul>
 
-              {plan.name === "Free" ? (
+              {/* {plan.name === "Free" ? (
                 <Button variant="outline" className="credits-btn">
                   Free Consumable
                 </Button>
               ) : (
                 <SignedIn>
                   <Checkout
-                  
                     plan={plan.name}
                     amount={plan.price}
                     credits={plan.credits}
                     buyerId={user._id}
                   />
                 </SignedIn>
-              )}
+              )} */}
             </li>
           ))}
         </ul>

@@ -22,5 +22,17 @@
     "review2": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis mollitia quae, accusantium veritatis vero placeat dolorum doloremque maiores quo? Deserunt, delectus.",
     "button_sign_up": "Sign up for free",
     "button_sign_up_1": "Start For Free Today"
+  },
+  "SideBar": {
+    "Image Restore": "Image Restore",
+    "Generative Fill": "Generative Fill",
+    "Object Remove": "Object Remove",
+    "Enhance Image": "Enhance Image",
+    "Background Remove": "Background Remove",
+    "Object Recolor": "Object Recolor",
+    "Style Transfer": "Style Transfer",
+    "Dynamic Light": "Dynamic Light",
+    "Profile": "Profile",
+    "Buy Credits": "Buy Credits"
   }
 }

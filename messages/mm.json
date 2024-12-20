@@ -22,5 +22,17 @@
     "review2": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis mollitia quae, accusantium veritatis vero placeat dolorum doloremque maiores quo? Deserunt, delectus.",
     "button_sign_up": "အခမဲ့ စာရင်းသွင်းပါ",
     "button_sign_up_1": "အခမဲ့ စာရင်းသွင်းပါ"
+  },
+  "SideBar": {
+    "Image Restore": "ပုံပြန်လည်ပြင်ဆင်ခြင်း",
+    "Generative Fill": "ဖြည့်စွက်ဖန်တီးခြင်း",
+    "Object Remove": "အရာဝတ္ထုဖယ်ရှားခြင်း",
+    "Enhance Image": "ပုံတိုးတက်မှု",
+    "Background Remove": "နောက်ခံဖယ်ရှားခြင်း",
+    "Object Recolor": "အရာဝတ္ထုအရောင်သတ်မှတ်ခြင်း",
+    "Style Transfer": "စတိုင်အပြောင်းအလဲ",
+    "Dynamic Light": "မိုဘိုင်းအလင်း",
+    "Profile": "ကိုယ်ရေးအကျဉ်း",
+    "Buy Credits": "အကြွေစေ့ဝယ်ယူခြင်း"
   }
 }

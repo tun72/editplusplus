@@ -9,7 +9,6 @@ import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { getMessages } from "next-intl/server";
-import { ClerkProvider } from "@clerk/nextjs";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -41,31 +40,27 @@ export default async function RootLayout({
     notFound();
   }
 
-  // console.log(locale);
-
   const messages = await getMessages();
 
-  console.log(messages);
-
   return (
-    <ClerkProvider
-      appearance={{
-        variables: { colorPrimary: "#624cf5" },
-      }}
-    >
-      <html lang={locale}>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased  flex flex-col`}
-        >
-          <main className=" relative flex-1 flex flex-col">
-            <NextIntlClientProvider messages={messages}>
-              {children}
-            </NextIntlClientProvider>
-          </main>
-          <Toaster />
-        </body>
-      </html>
-    </ClerkProvider>
+    // <ClerkProvider
+    //   appearance={{
+    //     variables: { colorPrimary: "#624cf5" },
+    //   }}
+    // >
+    <html lang={locale}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased  flex flex-col`}
+      >
+        <main className=" relative flex-1 flex flex-col">
+          <NextIntlClientProvider messages={messages}>
+            {children}
+          </NextIntlClientProvider>
+        </main>
+        <Toaster />
+      </body>
+    </html>
+    // </ClerkProvider>
   );
 }
 

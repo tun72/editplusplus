@@ -37,6 +37,25 @@ export async function getUserById(userId: string) {
   }
 }
 
+//GET USER BY EMAIL
+
+export async function getUserByEmail(email: string) {
+  try {
+    await connectToDatabase();
+
+    console.log("hit");
+    
+    const user = await User.findOne({email});
+
+    if (!user) throw new Error("User not found");
+
+    return JSON.parse(JSON.stringify(user));
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+
 // UPDATE
 export async function updateUser(clerkId: string, user: UpdateUserParams) {
   try {

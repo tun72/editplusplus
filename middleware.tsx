@@ -25,8 +25,13 @@ export default createIntlMiddleware({
 });
 
 export const config = {
-  // Skip all non-content paths
-  matcher: ["/", "/(en|mm)/:path*"],
+  matcher: [
+    "/", // Root path
+    "/(en|mm)/:path*", // All nested paths for "en" or "mm" languages
+    "/sign-in", // Sign-in path
+    "/sign-up", // Sign-up path
+    "/user/:path*", // All nested paths under "user"
+  ],
 };
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -105,7 +110,6 @@ export const config = {
 //     "/(en|mm)/:path*",
 //   ],
 // };
-
 
 ///////////////////////////////////////////////////////////////
 // import { NextRequest, NextResponse } from "next/server";

@@ -6,18 +6,17 @@ import { redirect } from "next/navigation";
 import { Collection } from "@/components/shared/Collection";
 import Header from "@/components/shared/Header";
 import { getUserImages } from "@/lib/actions/image.actions";
-import { getUserById } from "@/lib/actions/user.actions";
-import { auth } from "@clerk/nextjs/server";
+import { getUserByEmail, getUserById } from "@/lib/actions/user.actions";
+import { auth } from "@/lib/auth/auth";
+
 
 const Profile = async ({ searchParams }: SearchParamProps) => {
   const page = Number(searchParams?.page) || 1;
-  let { userId } = await auth();
 
-  if (!userId) redirect("/sign-in");
+  const user_session = await auth();
+  if (!user_session?.user?.email) redirect("/sign-in");
 
-  console.log(userId);
-
-  let user = await getUserById(userId || "67348dabb046a35acf7171ac");
+  const user = await getUserByEmail(user_session.user?.email);
 
   const images = await getUserImages({
     page,

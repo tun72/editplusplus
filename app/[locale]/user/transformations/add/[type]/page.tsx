@@ -3,21 +3,21 @@ import ImageEnhance from "@/components/shared/ImageEnhance";
 import StyleTransferForm from "@/components/shared/StyleTransferForm";
 import TransformationForm from "@/components/shared/TransformationForm";
 import { transformationTypes } from "@/constants";
-import { getUserById } from "@/lib/actions/user.actions";
+import { getUserByEmail } from "@/lib/actions/user.actions";
+import { auth } from "@/lib/auth/auth";
 // import { getUserById } from '@/lib/actions/user.actions';
-import { auth } from "@clerk/nextjs/server";
 
 import { redirect } from "next/navigation";
 
 const AddTransformationTypePage = async ({
   params: { type },
 }: SearchParamProps) => {
-  const { userId } = await auth();
   const transformation = transformationTypes[type];
 
-  if (!userId) redirect("/sign-in");
+  const user_session = await auth();
+  if (!user_session?.user?.email) redirect("/sign-in");
 
-  const user = await getUserById(userId);
+  const user = await getUserByEmail(user_session.user?.email);
 
   let form = (
     <TransformationForm

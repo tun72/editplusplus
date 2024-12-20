@@ -44,6 +44,7 @@ export const formSchema = z.object({
   publicId: z.string(),
   transformId: z.string().optional(),
   art: z.string().optional(),
+  cupon: z.string().optional()
 });
 
 const TransformationForm = ({
