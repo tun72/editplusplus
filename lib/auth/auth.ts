@@ -6,7 +6,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 });
 
 export async function signInAction() {
-  await signIn("google", { redirectTo: "/user" });
+  await signIn("google", { redirectTo: "/welcome" });
 }
 
 export async function signOutAction() {

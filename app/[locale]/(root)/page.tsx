@@ -64,10 +64,6 @@ export default function Home() {
         { name: "Marketing", href: "#" },
         { name: "Developers", href: "#" },
         { name: "Ecommerce", href: "#" },
-        { name: "Media", href: "#" },
-        { name: "Car Dealerships", href: "#" },
-        { name: "Enterprise", href: "#" },
-        { name: "Success stories", href: "#" },
       ],
     },
     tools: {
@@ -141,7 +137,7 @@ export default function Home() {
                 {t("about")}
               </p>
 
-              <ul className="mt-6 space-y-2 text-left font-medium flex flex-col items-center sm:items-start">
+              {/* <ul className="mt-6 space-y-2 text-left font-medium flex flex-col items-center sm:items-start">
                 <div className="space-y-2">
                   <li className="flex gap-1.5 items-center text-left">
                     <Check className="h-5 w-5 shrink-0 text-yellow-500" />
@@ -156,14 +152,14 @@ export default function Home() {
                     Modern iPhone models supported
                   </li>
                 </div>
-              </ul>
+              </ul> */}
 
               <div className="w-full max-w-80 mt-6">
                 <ShinyButton
                   href="/sign-up"
                   className="relative z-10 h-14 w-full text-base shadow-lg transition-shadow duration-300 hover:shadow-xl"
                 >
-                 {t("button_sign_up_1")}
+                  {t("button_sign_up_1")}
                 </ShinyButton>
               </div>
             </div>
@@ -331,8 +327,10 @@ export default function Home() {
 
           <div className="container mx-auto px-4 relative">
             {/* Blog Header */}
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-800">{t("blog")}</h2>
+            <div className="flex justify-between items-center mb-8 flex-col sm:flex-row">
+              <h2 className="text-3xl sm:text-xl font-bold text-gray-800">
+                {t("blog")}
+              </h2>
               <Link
                 href="/blog"
                 className="text-gray-800 hover:text-gray-600 flex items-center gap-2"
@@ -474,9 +472,9 @@ export default function Home() {
       <footer className="bg-slate-700 text-slate-200">
         {/* Wave decoration */}
 
-        <div className="container mx-auto px-4 py-12">
+        <div className="container mx-auto sm:px-4 py-12 px-5">
           {/* Main footer content */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+          <div className="grid grid-cols-2  md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
             {/* Learn more section */}
             <div>
               <h2 className="font-semibold mb-4">{footerLinks.learn.title}</h2>
@@ -577,7 +575,7 @@ export default function Home() {
               </div> */}
 
               {/* Social links */}
-              <div className="flex gap-4">
+              {/* <div className="flex gap-4">
                 {socialLinks.map((social) => (
                   <Link
                     key={social.name}
@@ -588,12 +586,12 @@ export default function Home() {
                     <social.icon className="h-5 w-5" />
                   </Link>
                 ))}
-              </div>
+              </div> */}
             </div>
 
             {/* Copyright and legal links */}
             <div className="mt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-400">
-              <p>© remove.bg, a Canva Austria GmbH brand</p>
+              <p>© tun72</p>
               <div className="flex flex-wrap justify-center gap-4">
                 {legalLinks.map((link) => (
                   <Link

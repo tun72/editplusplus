@@ -8,7 +8,7 @@ const Sidebar = async () => {
   const user = await auth();
 
   return (
-    <aside className="hidden  w-72 bg-white p-5 shadow-md shadow-yellow-200/50 lg:flex">
+    <aside className="hidden  w-72 bg-white p-5 shadow-md lg:flex">
       <div className="flex size-full flex-col gap-4">
         <Link href="/user" className="h-[50px] w-[100%] flex items-center ml-5">
           {/* <ImageIcon />

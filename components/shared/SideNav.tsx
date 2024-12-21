@@ -7,6 +7,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+
+import SignOut from "@/components/shared/sign-out";
 
 interface SideNavProps {
   name: string;
@@ -85,10 +93,22 @@ function SideNav({ name, email, image }: SideNavProps) {
         })}
         <li className="flex-center cursor-pointer gap-2 p-3 ">
           {/* <UserButton /> */}
-          <Avatar>
-            <AvatarImage src={image} className="" />
-            <AvatarFallback>{name.slice(0, 3)}</AvatarFallback>
-          </Avatar>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Avatar>
+                <AvatarImage src={image} className="" />
+                <AvatarFallback>{name.slice(0, 3)}</AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="ml-5 w-44 cursor-pointer">
+              <DropdownMenuItem>
+                {/* <LogOut /> */}
+                <SignOut />
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <p className="font-semibold text-[14px] leading-[140%]">{name}</p>
         </li>
       </ul>

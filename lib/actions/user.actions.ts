@@ -14,7 +14,6 @@ export async function createUser(user: CreateUserParams) {
     const newUser = await User.create(user);
 
     console.log(newUser);
-    
 
     return JSON.parse(JSON.stringify(newUser));
   } catch (error) {
@@ -44,8 +43,8 @@ export async function getUserByEmail(email: string) {
     await connectToDatabase();
 
     console.log("hit");
-    
-    const user = await User.findOne({email});
+
+    const user = await User.findOne({ email });
 
     if (!user) throw new Error("User not found");
 
@@ -54,7 +53,6 @@ export async function getUserByEmail(email: string) {
     handleError(error);
   }
 }
-
 
 // UPDATE
 export async function updateUser(clerkId: string, user: UpdateUserParams) {
@@ -66,7 +64,7 @@ export async function updateUser(clerkId: string, user: UpdateUserParams) {
     });
 
     if (!updatedUser) throw new Error("User update failed");
-    
+
     return JSON.parse(JSON.stringify(updatedUser));
   } catch (error) {
     handleError(error);
@@ -102,14 +100,15 @@ export async function updateCredits(userId: string, creditFee: number) {
 
     const updatedUserCredits = await User.findOneAndUpdate(
       { _id: userId },
-      { $inc: { creditBalance: creditFee }},
+      { $inc: { creditBalance: creditFee } },
       { new: true }
-    )
+    );
 
-    if(!updatedUserCredits) throw new Error("User credits update failed");
+    if (!updatedUserCredits) throw new Error("User credits update failed");
 
     return JSON.parse(JSON.stringify(updatedUserCredits));
   } catch (error) {
     handleError(error);
   }
 }
+

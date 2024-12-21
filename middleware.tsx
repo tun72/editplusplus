@@ -30,7 +30,9 @@ export const config = {
     "/(en|mm)/:path*", // All nested paths for "en" or "mm" languages
     "/sign-in", // Sign-in path
     "/sign-up", // Sign-up path
+    "/welcome",
     "/user/:path*", // All nested paths under "user"
+    "/blog/:path*"
   ],
 };
 

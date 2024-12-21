@@ -1,22 +1,5 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-
-import { z } from "zod";
-
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "@/components/ui/input";
-import { generateCupon } from "@/lib/services/cupon.service";
 import {
   Dialog,
   DialogClose,
@@ -25,43 +8,65 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 
-// Define a Client Component
-export default function AddCupon({
-  handleRefresh,
-}: {
-  handleRefresh: () => void;
-}) {
+import { addCupon } from "@/lib/services/cupon.service";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+function AddCredit() {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
   const formSchema = z.object({
     code: z.string().min(2).max(50),
-    amount: z.string(),
   });
+
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       code: "",
-      amount: "",
     },
   });
 
   async function onSubmit(value: z.infer<typeof formSchema>) {
-    await generateCupon({ code: value.code, amount: value.amount });
+    console.log(value);
 
-    setOpen((prev) => !prev);
+    const isSuccess = await addCupon(value.code);
+    if (isSuccess) {
+      setOpen(false);
+      router.push("/en/user/profile");
+    } else {
+      console.log(isSuccess);
 
-    handleRefresh();
-    
+      form.setError("code", {
+        type: "manual",
+        message: "Invalid code.",
+      });
+    }
   }
+
   return (
     <Dialog onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild>
-        <Button className="w-fit">Add Cupon</Button>
+        <Button className="w-fit">Add Credit</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create Your Cupon</DialogTitle>
+          <DialogTitle>Add Your Cupon Code</DialogTitle>
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -89,19 +94,6 @@ export default function AddCupon({
                 )}
               ></FormField>
 
-              <FormField
-                control={form.control}
-                name="amount"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Amount</FormLabel>
-                    <FormControl>
-                      <Input placeholder="cupon price" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              ></FormField>
               <div className="space-x-4 flex items-center justify-end">
                 {/* <AlertDialogCancel>Cancel</AlertDialogCancel> */}
                 <DialogClose>Cancel</DialogClose>
@@ -117,3 +109,5 @@ export default function AddCupon({
     </Dialog>
   );
 }
+
+export default AddCredit;

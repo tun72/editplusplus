@@ -6,14 +6,12 @@ import Image from "next/image";
 // import { auth } from "@clerk/nextjs/server";
 
 import { SignOutButton } from "@clerk/nextjs";
-
+import { auth } from "@/lib/auth/auth";
 
 const NavBar = async () => {
   // const user = await currentUser();
   // console.log(user);
-  // const { userId } = await auth();
-
-  const userId = false;
+  const userId = await auth();
 
   // console.log(userId);
 
@@ -30,18 +28,12 @@ const NavBar = async () => {
           <div className="h-full flex items-center space-x-4">
             {userId ? (
               <>
-                <SignOutButton>
-                  <Button size="sm" variant="ghost">
-                    Sign out
-                  </Button>
-                </SignOutButton>
-
                 <Link
                   href="/user"
                   className={buttonVariants({
                     size: "sm",
                     className:
-                      "hidden sm:flex items-center gap-1 bg-yellow-400",
+                      "flex items-center gap-1 bg-yellow-400",
                   })}
                 >
                   Start Now

@@ -5,9 +5,10 @@ import { redirect } from "next/navigation";
 import Header from "@/components/shared/Header";
 import { Button } from "@/components/ui/button";
 import { plans } from "@/constants";
-import { getUserByEmail  } from "@/lib/actions/user.actions";
+import { getUserByEmail } from "@/lib/actions/user.actions";
 import Checkout from "@/components/shared/Checkout";
 import { auth } from "@/lib/auth/auth";
+import AddCredit from "./add-credits";
 // import { auth, } from "@clerk/nextjs/server";
 
 const Credits = async () => {
@@ -20,14 +21,14 @@ const Credits = async () => {
   const user = await getUserByEmail(user_session.user?.email);
 
   console.log(user);
-  
 
   return (
     <>
-      <Header
-        title="Buy Credits"
-        subtitle="Choose a credit package that suits your needs!"
-      />
+      <Header title="Buy Credits" />
+
+      <div className="mt-4">
+        <AddCredit />
+      </div>
 
       <section>
         <ul className="credits-list">

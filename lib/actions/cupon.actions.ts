@@ -1,22 +1,15 @@
-"use server"
+"use server";
+
 import Cupon from "../database/models/cupon.model";
 import { connectToDatabase } from "../database/mongoose";
-import { handleError } from "../utils";
-import { getUserByEmail } from "./user.actions";
 
-export async function createCupon() {
+export async function createCupon({ code, amount }: cuponType) {
   try {
     await connectToDatabase();
 
-    console.log("hit");
-
-    const newCupon = await Cupon.create({
-      code: "23123213",
-      amount: 1000,
-    });
+    const newCupon = await Cupon.create({ code, amount });
 
     console.log(newCupon);
-    
 
     return JSON.parse(JSON.stringify(newCupon));
   } catch (error) {
@@ -24,4 +17,27 @@ export async function createCupon() {
 
     // handleError(error);
   }
+}
+
+export async function getAllCupons() {
+  await connectToDatabase();
+  const cupons = await Cupon.find();
+  console.log(cupons);
+
+  return cupons;
+}
+
+export async function deleteCupon(id: string) {
+  await connectToDatabase();
+  return await Cupon.findByIdAndDelete(id);
+}
+
+export async function checkCupon(code: string) {
+  await connectToDatabase();
+  return await Cupon.findOne({ code });
+}
+
+export async function updateCupon(id: string) {
+  await connectToDatabase();
+  return await Cupon.findByIdAndUpdate(id, { status: "used" });
 }
