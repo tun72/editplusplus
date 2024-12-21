@@ -1,11 +1,10 @@
-import Link from "next/link";
-import MaxWidthWrapper from "./MaxWidthWrapper";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import MaxWidthWrapper from "./MaxWidthWrapper";
 // import { auth } from "@clerk/nextjs/server";
 
-import { SignOutButton } from "@clerk/nextjs";
 import { auth } from "@/lib/auth/auth";
 
 const NavBar = async () => {
@@ -32,8 +31,7 @@ const NavBar = async () => {
                   href="/user"
                   className={buttonVariants({
                     size: "sm",
-                    className:
-                      "flex items-center gap-1 bg-yellow-400",
+                    className: "flex items-center gap-1 bg-yellow-400",
                   })}
                 >
                   Start Now

@@ -26,7 +26,7 @@ function SideNav({ name, email, image }: SideNavProps) {
 
   const t = useTranslations("SideBar");
 
-  console.log(image);
+  console.log(email);
 
   return (
     <nav className="h-full flex-col justify-between md:flex md:gap-4">
