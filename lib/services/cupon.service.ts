@@ -6,7 +6,6 @@ import {
   updateCupon,
 } from "../actions/cupon.actions";
 import {
-  addCredits,
   getUserByEmail,
   updateCredits,
 } from "../actions/user.actions";
