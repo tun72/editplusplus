@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose, { Mongoose } from "mongoose";
 
-// const MONGODB_URL = process.env.MONGODB_URL;
+const MONGODB_URL = process.env.MONGODB_URL;
 
-const MONGODB_URL = "mongodb://127.0.0.1:27017/editplusplus";
+// const MONGODB_URL = "mongodb://127.0.0.1:27017/editplusplus";
 
 interface MongooseConnection {
   conn: Mongoose | null;
