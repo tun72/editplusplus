@@ -39,19 +39,11 @@ export async function getUserById(userId: string) {
 //GET USER BY EMAIL
 
 export async function getUserByEmail(email: string) {
-  try {
-    await connectToDatabase();
+  await connectToDatabase();
 
-    console.log("hit");
+  const user = await User.findOne({ email });
 
-    const user = await User.findOne({ email });
-
-    if (!user) throw new Error("User not found");
-
-    return JSON.parse(JSON.stringify(user));
-  } catch (error) {
-    handleError(error);
-  }
+  return JSON.parse(JSON.stringify(user));
 }
 
 // UPDATE
@@ -111,4 +103,3 @@ export async function updateCredits(userId: string, creditFee: number) {
     handleError(error);
   }
 }
-
