@@ -110,9 +110,9 @@ export default function Home() {
   ];
 
   const legalLinks = [
-    { name: "Terms of Service", href: "#" },
-    { name: "General Terms and Conditions", href: "#" },
-    { name: "Privacy Policy", href: "#" },
+    { name: "Terms of Service", href: "https://www.termsfeed.com/live/66c86d0a-8d9e-426e-9762-60a4566c9863" },
+    { name: "General Terms and Conditions", href: "https://www.termsfeed.com/live/66c86d0a-8d9e-426e-9762-60a4566c9863" },
+    { name: "Privacy Policy", href: "https://www.termsfeed.com/live/9c0858b8-6aa2-4118-ba51-42502872dc1c" },
     { name: "Cookie Policy", href: "#" },
     { name: "Imprint", href: "#" },
   ];
@@ -591,7 +591,6 @@ export default function Home() {
 
             {/* Copyright and legal links */}
             <div className="mt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-400">
-              <p>© tun72</p>
               <div className="flex flex-wrap justify-center gap-4">
                 {legalLinks.map((link) => (
                   <Link
