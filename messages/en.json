@@ -1,6 +1,38 @@
 {
   "HomePage": {
-    "title": "Hello world!",
-    "about": "Go to the about page"
+    "title": "Remove",
+    "title1": "Custom",
+    "title2": "Image",
+    "title3": "Background",
+    "about": "Lorem ipsum dolor sit amet consectetur adipisicing el p Cum, accusantium minima  p Cum, accusantium rerum reprehenderit p Cum, accusantium distinctio sit facilis abunde sunt. Neque similique inventore eius delectus modi etexercitationem id fuga.",
+    "subtitle1": "Stunning Quality",
+    "subtitle2": "Remove backgrounds 100% automatically in 5 seconds with one click",
+    "feature1": "Thanks to clever AI, you can slash editing time - and have more fun",
+    "feature2": "No matter if you want to make a background transparent (PNG), add a white background to a photo, extract or isolate the subject, or get the cutout of a photo - you can do all this and more with remove.bg, the AI background remover for professionals.",
+    "blog": "Blog",
+    "blog_link": "See more articles",
+    "update": "Get Updates",
+    "blog_feature": "Sign up for our mailing list to receive news and updates about editplusplus products and services. You can unsubscribe at any time.",
+    "subscribe": "subscribe",
+    "subscribe_feature": "To learn more about how editplusplus handles your personal data, check our",
+    "privacy": "Privacy Policy",
+    "subtitle3": "Real-World Experiences",
+    "subtitle4": "What our customers say",
+    "review1": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis mollitia quae, accusantium veritatis vero placeat dolorum doloremque maiores quo? Deserunt, delectus.",
+    "review2": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis mollitia quae, accusantium veritatis vero placeat dolorum doloremque maiores quo? Deserunt, delectus.",
+    "button_sign_up": "Sign up for free",
+    "button_sign_up_1": "Start For Free Today"
+  },
+  "SideBar": {
+    "Image Restore": "Image Restore",
+    "Generative Fill": "Generative Fill",
+    "Object Remove": "Object Remove",
+    "Enhance Image": "Enhance Image",
+    "Background Remove": "Background Remove",
+    "Object Recolor": "Object Recolor",
+    "Style Transfer": "Style Transfer",
+    "Dynamic Light": "Dynamic Light",
+    "Profile": "Profile",
+    "Buy Credits": "Buy Credits"
   }
 }

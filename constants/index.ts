@@ -44,15 +44,16 @@ export const navLinks = [
   },
 
   {
-    label: "Profile",
-    route: "/user/profile",
-    icon: "/assets/icons/profile.svg",
-  },
-  {
     label: "Buy Credits",
     route: "/user/credits",
     icon: "/assets/icons/bag.svg",
   },
+  {
+    label: "Profile",
+    route: "/user/profile",
+    icon: "/assets/icons/profile.svg",
+  },
+  
 ];
 
 export const plans = [

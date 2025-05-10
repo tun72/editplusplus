@@ -3,11 +3,9 @@
 
 // ====== USER PARAMS
 declare type CreateUserParams = {
-  clerkId: string;
   email: string;
   username: string;
-  firstName: string;
-  lastName: string;
+
   photo: string;
 };
 
@@ -151,4 +149,11 @@ declare type enhanceImage = {
   url: string;
   width?: number;
   height?: number;
+};
+
+//================ CUPON PARAMS
+
+declare type cuponType = {
+  code: string;
+  amount: string;
 };
